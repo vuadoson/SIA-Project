@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>SIA Global System Interface</title>
+    <style>
+        body { background-color: #0d1117; color: #ffffff; font-family: sans-serif; text-align: center; padding: 50px; }
+        .dashboard { border: 2px dashed #00ffd5; border-radius: 10px; padding: 30px; display: inline-block; background-color: #161b22; }
+        .currency { color: #ffeb3b; font-size: 3rem; font-weight: bold; margin: 20px 0; }
+        .btn { background: none; border: 2px solid #00ffd5; color: #00ffd5; padding: 15px 30px; font-size: 1.2rem; border-radius: 25px; cursor: pointer; text-transform: uppercase; }
+        .btn:disabled { border-color: #8b949e; color: #8b949e; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <h2>ESTIMATED INTELLECTUAL PROPERTY ROYALTIES (REAL-TIME)</h2>
+        <div class="currency" id="money-display">$0.00</div>
+        <button class="btn" id="action-btn" onclick="startSIA()">SYSTEM OPERATIONAL</button>
+    </div>
+
+    <script>
+        let currentMoney = 0.00;
+        let moneyInterval;
+        function startSIA() {
+            const btn = document.getElementById("action-btn");
+            const display = document.getElementById("money-display");
+            btn.disabled = true;
+            btn.innerText = "SYSTEM ACTIVE";
+            
+            moneyInterval = setInterval(() => {
+                currentMoney += 0.01;
+                display.innerText = "$" + currentMoney.toFixed(2);
+            }, 100);
+        }
+    </script>
+</body>
+</html>
