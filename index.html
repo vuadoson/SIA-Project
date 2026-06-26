@@ -2,35 +2,86 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>SIA Global System Interface</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIA - Bàn Điều Khiển Tác Quyền</title>
     <style>
-        body { background-color: #0d1117; color: #ffffff; font-family: sans-serif; text-align: center; padding: 50px; }
-        .dashboard { border: 2px dashed #00ffd5; border-radius: 10px; padding: 30px; display: inline-block; background-color: #161b22; }
-        .currency { color: #ffeb3b; font-size: 3rem; font-weight: bold; margin: 20px 0; }
-        .btn { background: none; border: 2px solid #00ffd5; color: #00ffd5; padding: 15px 30px; font-size: 1.2rem; border-radius: 25px; cursor: pointer; text-transform: uppercase; }
-        .btn:disabled { border-color: #8b949e; color: #8b949e; cursor: not-allowed; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f172a; color: #e2e8f0; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { max-width: 500px; width: 100%; background: #1e293b; padding: 25px; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); border: 1px solid #334155; margin-top: 20px; }
+        h1 { color: #a78bfa; text-align: center; font-size: 24px; margin-bottom: 5px; }
+        p.subtitle { text-align: center; color: #94a3b8; font-size: 14px; margin-bottom: 25px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 14px; margin-bottom: 5px; color: #cbd5e1; }
+        input, select { width: 100%; padding: 10px; background: #0f172a; border: 1px solid #475569; border-radius: 6px; color: white; box-sizing: border-box; font-size: 15px; }
+        input:focus, select:focus { border-color: #8b5cf6; outline: none; }
+        button { width: 100%; padding: 12px; background: #7c3aed; border: none; border-radius: 6px; color: white; font-weight: bold; font-size: 16px; cursor: pointer; transition: background 0.2s; margin-top: 10px; }
+        button:hover { background: #6d28d9; }
+        .result-box { margin-top: 20px; padding: 15px; background: #0f172a; border-radius: 6px; border-left: 4px solid #475569; display: none; word-break: break-all; }
+        .success { border-left-color: #10b981; color: #34d399; }
+        .error { border-left-color: #ef4444; color: #f87171; }
     </style>
 </head>
 <body>
-    <div class="dashboard">
-        <h2>ESTIMATED INTELLECTUAL PROPERTY ROYALTIES (REAL-TIME)</h2>
-        <div class="currency" id="money-display">$0.00</div>
-        <button class="btn" id="action-btn" onclick="startSIA()">SYSTEM OPERATIONAL</button>
+
+    <div class="container">
+        <h1>SIA CORE CONTROL</h1>
+        <p class="subtitle">Kích hoạt tác quyền phi tập trung thời gian thực</p>
+        
+        <div class="form-group">
+            <label>Hành động khai thác (Action Type)</label>
+            <select id="actionType">
+                <option value="AI_TRAINING">Sử dụng dữ liệu huấn luyện AI</option>
+                <option value="COMMERCIAL_USE">Khai thác thương mại Big Tech</option>
+                <option value="API_CALL">Truy vấn dữ liệu cốt lõi</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Số tiền thanh toán (USD)</label>
+            <input type="number" id="amount" value="500000" step="100000">
+        </div>
+
+        <button onclick="sendSIARequest()">Kích Hoạt Xác Thực SIA</button>
+
+        <div id="resultBox" class="result-box">
+            <strong>Phản hồi từ Máy chủ Đám mây:</strong>
+            <p id="resultText" style="margin: 5px 0 0 0; font-family: monospace;"></p>
+        </div>
     </div>
 
     <script>
-        let currentMoney = 0.00;
-        let moneyInterval;
-        function startSIA() {
-            const btn = document.getElementById("action-btn");
-            const display = document.getElementById("money-display");
-            btn.disabled = true;
-            btn.innerText = "SYSTEM ACTIVE";
-            
-            moneyInterval = setInterval(() => {
-                currentMoney += 0.01;
-                display.innerText = "$" + currentMoney.toFixed(2);
-            }, 100);
+        async function sendSIARequest() {
+            const actionType = document.getElementById('actionType').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const resultBox = document.getElementById('resultBox');
+            const resultText = document.getElementById('resultText');
+
+            resultBox.style.display = 'block';
+            resultBox.className = 'result-box';
+            resultText.innerText = 'Đang gửi lệnh xác thực lên đám mây...';
+
+            // Đường dẫn kết nối thẳng tới máy chủ Render của ông
+            const url = 'https://sia-project-wghg.onrender.com/api/v1/royalty';
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action_type: actionType, amount: amount })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultBox.classList.add('success');
+                    resultText.innerText = JSON.stringify(data, null, 2);
+                } else {
+                    resultBox.classList.add('error');
+                    resultText.innerText = 'Lỗi hệ thống: ' + (data.message || response.statusText);
+                }
+            } catch (err) {
+                resultBox.classList.add('error');
+                resultText.innerText = 'Không thể kết nối tới máy chủ Render: ' + err.message;
+            }
         }
     </script>
 </body>
