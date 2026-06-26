@@ -13,6 +13,7 @@ const SIASecurityToken = "SIA-SUPER-KEY-2026"
 type RoyaltyPayload struct {
 	ActionType string  `json:"action_type"`
 	Amount     float64 `json:"amount"`
+	Currency   string  `json:"currency"` // Loại tiền tệ khách chọn: VND, USD, EUR
 	SIAKey     string  `json:"sia_key"`
 }
 
@@ -26,7 +27,6 @@ func saveToLogFile(logLine string) {
 	file.WriteString(logLine + "\n")
 }
 
-// API 1: Tiếp nhận và phân bổ dòng tiền
 func handlerRoyaltyIncoming(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -54,30 +54,44 @@ func handlerRoyaltyIncoming(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Xác định số tài khoản ngân hàng MB thật dựa trên loại tiền tệ
+	targetAccount := "1005071981" // Mặc định là VND
+	if data.Currency == "USD" {
+		targetAccount = "6801639330636"
+	} else if data.Currency == "EUR" {
+		targetAccount = "5120703663032"
+	}
+
 	developerShare := data.Amount * 0.70
 	infrastructureShare := data.Amount * 0.20
 	reserveFund := data.Amount * 0.10
 	timestamp := time.Now().Format("2006-01-02 15:04:05")
 
-	logLine := fmt.Sprintf("[%s] %s | TỔNG: $%.2f | DEV: $%.2f | HẠ TẦNG: $%.2f | DỰ PHÒNG: $%.2f", 
-		timestamp, data.ActionType, data.Amount, developerShare, infrastructureShare, reserveFund)
-	
+	// Tạo mã QR thanh toán chuẩn VietQR tự động điền số tài khoản, ngân hàng và số tiền thực tế
+	// Định dạng VietQR nhanh: https://img.vietqr.io/image/<BANK_ID>-<ACCOUNT_NO>-qr_only.png?amount=<AMOUNT>&addInfo=<MEMO>
+	qrCodeURL := fmt.Sprintf("https://img.vietqr.io/image/MB-%s-qr_only.png?amount=%.0f&addInfo=SIA_ROYALTY_%s", 
+		targetAccount, data.Amount, data.ActionType)
+
+	logLine := fmt.Sprintf("[%s] %s | TỔNG: %.2f %s | TÀI KHOẢN NHẬN: MB-%s", 
+		timestamp, data.ActionType, data.Amount, data.Currency, targetAccount)
 	saveToLogFile(logLine)
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]interface{}{
-		"status":               "success",
-		"message":              "Trọng tài hệ thống SIA đã phê duyệt, phân bổ và LƯU TRỮ NHẬT KÝ 3 NĂM vĩnh viễn thành công!",
-		"timestamp":            timestamp,
-		"total_amount_usd":     data.Amount,
-		"share_developer_70":   developerShare,
-		"share_hardware_20":    infrastructureShare,
-		"share_reserve_10":     reserveFund,
-		"security_audit":       "PASSED & ARCHIVED (Đã lưu kho nhật ký lõi)",
+		"status":          "success",
+		"message":         "Hệ thống SIA đã lập hóa đơn thực tế và khởi tạo cổng thanh toán trực tiếp qua cổng ngân hàng MB!",
+		"timestamp":       timestamp,
+		"currency":        data.Currency,
+		"account_no":      targetAccount,
+		"account_name":    "VU VAN TRONG",
+		"qr_url":          qrCodeURL,
+		"total_amount":    data.Amount,
+		"share_dev":       developerShare,
+		"share_hardware":  infrastructureShare,
+		"share_reserve":   reserveFund,
 	})
 }
 
-// API 2: Đọc xuất nhật ký dòng tiền ra màn hình
 func handlerFetchLogs(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -88,11 +102,10 @@ func handlerFetchLogs(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Đọc tệp tin nhật ký từ ổ đĩa máy chủ
 	content, err := os.ReadFile("sia_money_flow.log")
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(map[string]string{"logs": "Chưa có dữ liệu nhật ký dòng tiền được lưu trữ."})
+		json.NewEncoder(w).Encode(map[string]string{"logs": "Chưa có dữ liệu nhật ký dòng tiền thực tế."})
 		return
 	}
 
@@ -102,12 +115,6 @@ func handlerFetchLogs(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/api/v1/royalty", handlerRoyaltyIncoming)
-	http.HandleFunc("/api/v1/logs", handlerFetchLogs) // Cổng xuất dữ liệu nhật ký
-
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		w.Write([]byte(`<h1>SIA CORE ENGINE v4 - FULL SYSTEM ACTIVE</h1>`))
-	})
-
+	http.HandleFunc("/api/v1/logs", handlerFetchLogs)
 	http.ListenAndServe(":8080", nil)
 }
