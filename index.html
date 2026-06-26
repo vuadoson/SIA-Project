@@ -3,28 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIA - Bàn Điều Khiển Tác Quyền v2</title>
+    <title>SIA - Bàn Điều Khiển Toàn Phần</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f172a; color: #e2e8f0; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         .container { max-width: 500px; width: 100%; background: #1e293b; padding: 25px; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); border: 1px solid #334155; margin-top: 20px; }
         h1 { color: #a78bfa; text-align: center; font-size: 24px; margin-bottom: 5px; }
         p.subtitle { text-align: center; color: #94a3b8; font-size: 14px; margin-bottom: 25px; }
         .form-group { margin-bottom: 15px; }
         label { display: block; font-size: 14px; margin-bottom: 5px; color: #cbd5e1; }
         input, select { width: 100%; padding: 10px; background: #0f172a; border: 1px solid #475569; border-radius: 6px; color: white; box-sizing: border-box; font-size: 15px; }
-        input:focus, select:focus { border-color: #8b5cf6; outline: none; }
-        button { width: 100%; padding: 12px; background: #7c3aed; border: none; border-radius: 6px; color: white; font-weight: bold; font-size: 16px; cursor: pointer; transition: background 0.2s; margin-top: 10px; }
-        button:hover { background: #6d28d9; }
-        .result-box { margin-top: 20px; padding: 15px; background: #0f172a; border-radius: 6px; border-left: 4px solid #475569; display: none; white-space: pre-wrap; font-family: monospace; font-size: 14px; }
+        button { width: 100%; padding: 12px; background: #7c3aed; border: none; border-radius: 6px; color: white; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        button.btn-secondary { background: #475569; margin-top: 15px; }
+        .result-box { margin-top: 20px; padding: 15px; background: #0f172a; border-radius: 6px; border-left: 4px solid #475569; display: none; white-space: pre-wrap; font-family: monospace; font-size: 13px; }
         .success { border-left-color: #10b981; color: #34d399; }
         .error { border-left-color: #ef4444; color: #f87171; }
+        .log-area { max-height: 200px; overflow-y: auto; background: #020617; padding: 10px; border-radius: 6px; margin-top: 10px; border: 1px solid #1e293b; font-family: monospace; font-size: 11px; color: #38bdf8; display: none; width: 100%; box-sizing: border-box; white-space: pre-wrap; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>SIA CORE CONTROL v2</h1>
-        <p class="subtitle">Hệ thống phân bổ tác quyền & Bảo mật lõi</p>
+        <h1>SIA SYSTEM V4</h1>
+        <p class="subtitle">Hệ thống Điều phối & Lưu trữ Nhật ký Toàn phần</p>
         
         <div class="form-group">
             <label>Hành động khai thác (Action Type)</label>
@@ -42,18 +42,23 @@
 
         <div class="form-group">
             <label>Khóa Tối Cao SIA (Security Token)</label>
-            <input type="text" id="siaKey" value="SIA-SUPER-KEY-2026" placeholder="Nhập khóa bảo mật tại đây...">
+            <input type="text" id="siaKey" value="SIA-SUPER-KEY-2026">
         </div>
 
         <button onclick="sendSIARequest()">Kích Hoạt Xác Thực SIA</button>
+        <button class="btn-secondary" onclick="fetchSystemLogs()">Truy Xuất Sổ Kế Toán Nhật Ký</button>
 
         <div id="resultBox" class="result-box">
-            <strong style="color: white;">KẾT QUẢ XỬ LÝ THỜI GIAN THỰC:</strong><br><br>
+            <strong style="color: white;">KẾT QUẢ XỬ LÝ THỜI GIAN THỰC:</strong><br>
             <div id="resultText"></div>
         </div>
+
+        <div id="logArea" class="log-area"></div>
     </div>
 
     <script>
+        const baseUrl = 'https://sia-project-wghg.onrender.com';
+
         async function sendSIARequest() {
             const actionType = document.getElementById('actionType').value;
             const amount = parseFloat(document.getElementById('amount').value);
@@ -63,38 +68,39 @@
 
             resultBox.style.display = 'block';
             resultBox.className = 'result-box';
-            resultText.innerText = 'Đang gửi lệnh xác thực và phân bổ dòng tiền lên đám mây...';
-
-            const url = 'https://sia-project-wghg.onrender.com/api/v1/royalty';
+            resultText.innerText = 'Đang xử lý...';
 
             try {
-                const response = await fetch(url, {
+                const response = await fetch(`${baseUrl}/api/v1/royalty`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ action_type: actionType, amount: amount, sia_key: siaKey })
                 });
-
                 const data = await response.json();
-                
                 if (response.ok) {
                     resultBox.classList.add('success');
-                    resultText.innerText = 
-                        `[TRẠNG THÁI]: ${data.status.toUpperCase()}\n` +
-                        `[THÔNG BÁO]: ${data.message}\n\n` +
-                        `--- HOÁ ĐƠN PHÂN BỔ KHÁCH QUAN ---\n` +
-                        ` Tổng số tiền nhận: $${data.total_amount_usd.toLocaleString()} USD\n` +
-                        ` 👥 Quỹ Lập Trình Viên (70%): $${data.share_developer_70.toLocaleString()} USD\n` +
-                        ` ☁️ Quỹ Hạ Tầng Đám Mây (20%): $${data.share_hardware_20.toLocaleString()} USD\n` +
-                        ` 🛡️ Quỹ Dự Phòng Lõi (10%): $${data.share_reserve_10.toLocaleString()} USD\n\n` +
-                        `[KIỂM ĐỊNH BẢO MẬT]: ${data.security_audit}\n` +
-                        `[THỜI GIAN]: ${data.timestamp}`;
+                    resultText.innerText = `[THÔNG BÁO]: ${data.message}\n\n Tổng số tiền nhận: $${data.total_amount_usd.toLocaleString()} USD\n 👥 Quỹ Lập Trình Viên (70%): $${data.share_developer_70.toLocaleString()} USD\n ☁️ Quỹ Hạ Tầng (20%): $${data.share_hardware_20.toLocaleString()} USD\n 🛡️ Quỹ Dự Phòng (10%): $${data.share_reserve_10.toLocaleString()} USD`;
                 } else {
                     resultBox.classList.add('error');
-                    resultText.innerText = `[TỪ CHỐI LỆNH]:\n${data.message || 'Lỗi không xác định từ máy chủ.'}`;
+                    resultText.innerText = `[TỪ CHỐI]: ${data.message}`;
                 }
             } catch (err) {
                 resultBox.classList.add('error');
-                resultText.innerText = 'Kết nối thất bại. Máy chủ Render đang cập nhật, vui lòng thử lại sau 30 giây.';
+                resultText.innerText = 'Lỗi kết nối máy chủ.';
+            }
+        }
+
+        async function fetchSystemLogs() {
+            const logArea = document.getElementById('logArea');
+            logArea.style.display = 'block';
+            logArea.innerText = 'MÁY CHỦ ĐANG TRÍCH XUẤT DỮ LIỆU SỔ CÁI...';
+
+            try {
+                const response = await fetch(`${baseUrl}/api/v1/logs`);
+                const data = await response.json();
+                logArea.innerText = data.logs;
+            } catch (err) {
+                logArea.innerText = 'Không thể lấy dữ liệu nhật ký dòng tiền.';
             }
         }
     </script>
