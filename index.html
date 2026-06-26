@@ -3,54 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIA - Bàn Điều Khiển Toàn Phần</title>
+    <title>SIA - Nền Tảng Quản Lý Tác Quyền Công Nghệ</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .container { max-width: 500px; width: 100%; background: #1e293b; padding: 25px; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); border: 1px solid #334155; margin-top: 20px; }
-        h1 { color: #a78bfa; text-align: center; font-size: 24px; margin-bottom: 5px; }
-        p.subtitle { text-align: center; color: #94a3b8; font-size: 14px; margin-bottom: 25px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-size: 14px; margin-bottom: 5px; color: #cbd5e1; }
-        input, select { width: 100%; padding: 10px; background: #0f172a; border: 1px solid #475569; border-radius: 6px; color: white; box-sizing: border-box; font-size: 15px; }
-        button { width: 100%; padding: 12px; background: #7c3aed; border: none; border-radius: 6px; color: white; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
-        button.btn-secondary { background: #475569; margin-top: 15px; }
-        .result-box { margin-top: 20px; padding: 15px; background: #0f172a; border-radius: 6px; border-left: 4px solid #475569; display: none; white-space: pre-wrap; font-family: monospace; font-size: 13px; }
-        .success { border-left-color: #10b981; color: #34d399; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f172a; color: #e2e8f0; margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
+        .container { max-width: 550px; width: 100%; background: #1e293b; padding: 25px; border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.4); border: 1px solid #334155; margin-top: 10px; box-sizing: border-box; }
+        h1 { color: #a78bfa; text-align: center; font-size: 26px; margin-bottom: 5px; font-weight: 800; letter-spacing: 0.5px; }
+        p.subtitle { text-align: center; color: #38bdf8; font-size: 14px; margin-bottom: 20px; font-weight: 500; }
+        
+        /* Hướng dẫn cho khách hàng */
+        .guide-box { background: #020617; border: 1px dashed #475569; border-radius: 8px; padding: 12px 15px; margin-bottom: 20px; font-size: 13px; color: #94a3b8; }
+        .guide-box strong { color: #f43f5e; }
+        .guide-box ul { margin: 5px 0 0 20px; padding: 0; }
+        .guide-box li { margin-bottom: 3px; }
+
+        .form-group { margin-bottom: 16px; }
+        label { display: block; font-size: 14px; margin-bottom: 6px; color: #cbd5e1; font-weight: 600; }
+        input, select { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #475569; border-radius: 8px; color: white; box-sizing: border-box; font-size: 15px; transition: all 0.2s; }
+        input:focus, select:focus { border-color: #38bdf8; outline: none; box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2); }
+        
+        /* Nút bấm thương mại */
+        button { width: 100%; padding: 14px; border: none; border-radius: 8px; color: white; font-weight: bold; font-size: 16px; cursor: pointer; transition: all 0.2s; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-primary { background: linear-gradient(135deg, #7c3aed, #2563eb); box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.4); }
+        .btn-primary:hover { background: linear-gradient(135deg, #6d28d9, #1d4ed8); transform: translateY(-1px); }
+        .btn-secondary { background: #334155; border: 1px solid #475569; margin-top: 12px; color: #e2e8f0; font-size: 14px; padding: 10px; }
+        .btn-secondary:hover { background: #475569; color: white; }
+        
+        /* Hộp kết quả */
+        .result-box { margin-top: 20px; padding: 18px; background: #020617; border-radius: 10px; border-left: 5px solid #475569; display: none; font-size: 14px; line-height: 1.6; }
+        .success { border-left-color: #10b981; }
         .error { border-left-color: #ef4444; color: #f87171; }
-        .log-area { max-height: 200px; overflow-y: auto; background: #020617; padding: 10px; border-radius: 6px; margin-top: 10px; border: 1px solid #1e293b; font-family: monospace; font-size: 11px; color: #38bdf8; display: none; width: 100%; box-sizing: border-box; white-space: pre-wrap; }
+        
+        .invoice-title { font-size: 16px; font-weight: bold; color: #34d399; margin-bottom: 12px; border-bottom: 1px solid #1e293b; padding-bottom: 6px; }
+        .invoice-item { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #1e293b; }
+        .invoice-item.total { border-bottom: 2px solid #334155; font-weight: bold; color: #e2e8f0; font-size: 15px; margin-top: 5px; padding-bottom: 6px; }
+        .invoice-item span.val { font-family: 'Courier New', Courier, monospace; font-weight: bold; }
+        
+        /* Vùng log hệ thống */
+        .log-area { max-height: 180px; overflow-y: auto; background: #020617; padding: 12px; border-radius: 8px; margin-top: 15px; border: 1px solid #334155; font-family: monospace; font-size: 11px; color: #38bdf8; display: none; width: 100%; box-sizing: border-box; white-space: pre-wrap; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <h1>SIA SYSTEM V4</h1>
-        <p class="subtitle">Hệ thống Điều phối & Lưu trữ Nhật ký Toàn phần</p>
+        <p class="subtitle">Trọng Tài Công Nghệ • Phân Bổ Tác Quyền Tự Động</p>
+        
+        <!-- Hướng dẫn cho khách hàng dễ dùng, chủ nhà dễ giới thiệu -->
+        <div class="guide-box">
+            📢 <strong>Hướng dẫn nhanh cho Đối tác / Khách hàng:</strong>
+            <ul>
+                <li><strong>Bước 1:</strong> Chọn mục đích Big Tech muốn sử dụng dữ liệu của ông.</li>
+                <li><strong>Bước 2:</strong> Nhập tổng số tiền bản quyền thanh toán (USD).</li>
+                <li><strong>Bước 3:</strong> Nhấn nút màu tím để Trọng tài AI tự động phê duyệt và phân phối dòng tiền sòng phẳng.</li>
+            </ul>
+        </div>
         
         <div class="form-group">
-            <label>Hành động khai thác (Action Type)</label>
+            <label>💼 Loại Hình Khai Thác Bản Quyền</label>
             <select id="actionType">
-                <option value="AI_TRAINING">Sử dụng dữ liệu huấn luyện AI</option>
-                <option value="COMMERCIAL_USE">Khai thác thương mại Big Tech</option>
-                <option value="API_CALL">Truy vấn dữ liệu cốt lõi</option>
+                <option value="AI_TRAINING">🤖 Sử dụng dữ liệu huấn luyện các mô hình AI</option>
+                <option value="COMMERCIAL_USE">🏢 Khai thác thương mại / Tập đoàn Big Tech</option>
+                <option value="API_CALL">⚡ Truy vấn dữ liệu cốt lõi qua hệ thống API</option>
             </select>
         </div>
 
         <div class="form-group">
-            <label>Số tiền thanh toán (USD)</label>
+            <label>💵 Số Tiền Khách Hàng Thanh Toán (USD)</label>
             <input type="number" id="amount" value="500000">
         </div>
 
-        <div class="form-group">
-            <label>Khóa Tối Cao SIA (Security Token)</label>
+        <div class="form-group" style="display: none;">
+            <!-- Khóa tối cao ẩn đi hoặc giữ nguyên để khách hàng không cần bận tâm -->
+            <label>Mật Khóa Hệ Thống</label>
             <input type="text" id="siaKey" value="SIA-SUPER-KEY-2026">
         </div>
 
-        <button onclick="sendSIARequest()">Kích Hoạt Xác Thực SIA</button>
-        <button class="btn-secondary" onclick="fetchSystemLogs()">Truy Xuất Sổ Kế Toán Nhật Ký</button>
+        <button class="btn-primary" onclick="sendSIARequest()">
+            🚀 Kích Hoạt Phê Duyệt & Phân Bổ Tác Quyền
+        </button>
+        
+        <button class="btn-secondary" onclick="fetchSystemLogs()">
+            📊 Xem Sổ Cái Nhật Ký Kiểm Toán (3 Năm)
+        </button>
 
         <div id="resultBox" class="result-box">
-            <strong style="color: white;">KẾT QUẢ XỬ LÝ THỜI GIAN THỰC:</strong><br>
-            <div id="resultText"></div>
+            <div id="invoiceContent"></div>
         </div>
 
         <div id="logArea" class="log-area"></div>
@@ -64,11 +101,11 @@
             const amount = parseFloat(document.getElementById('amount').value);
             const siaKey = document.getElementById('siaKey').value;
             const resultBox = document.getElementById('resultBox');
-            const resultText = document.getElementById('resultText');
+            const invoiceContent = document.getElementById('invoiceContent');
 
             resultBox.style.display = 'block';
             resultBox.className = 'result-box';
-            resultText.innerText = 'Đang xử lý...';
+            invoiceContent.innerHTML = '<span style="color: #94a3b8;">🔄 Hệ thống SIA đang xử lý kiểm định dữ liệu trên đám mây...</span>';
 
             try {
                 const response = await fetch(`${baseUrl}/api/v1/royalty`, {
@@ -77,30 +114,39 @@
                     body: JSON.stringify({ action_type: actionType, amount: amount, sia_key: siaKey })
                 });
                 const data = await response.json();
+                
                 if (response.ok) {
                     resultBox.classList.add('success');
-                    resultText.innerText = `[THÔNG BÁO]: ${data.message}\n\n Tổng số tiền nhận: $${data.total_amount_usd.toLocaleString()} USD\n 👥 Quỹ Lập Trình Viên (70%): $${data.share_developer_70.toLocaleString()} USD\n ☁️ Quỹ Hạ Tầng (20%): $${data.share_hardware_20.toLocaleString()} USD\n 🛡️ Quỹ Dự Phòng (10%): $${data.share_reserve_10.toLocaleString()} USD`;
+                    invoiceContent.innerHTML = `
+                        <div class="invoice-title">✓ XÁC THỰC THÀNH CÔNG</div>
+                        <div style="font-size: 13px; color: #94a3b8; margin-bottom: 10px;">${data.message}</div>
+                        <div class="invoice-item total"><span>Tổng Thu Tác Quyền:</span><span class="val">$${data.total_amount_usd.toLocaleString()} USD</span></div>
+                        <div class="invoice-item" style="color: #60a5fa;"><span>👥 Quỹ Lập Trình Viên (70%):</span><span class="val">+$${data.share_developer_70.toLocaleString()} USD</span></div>
+                        <div class="invoice-item" style="color: #fca5a5;"><span>☁️ Quỹ Hạ Tầng Máy Chủ (20%):</span><span class="val">+$${data.share_hardware_20.toLocaleString()} USD</span></div>
+                        <div class="invoice-item" style="color: #fef08a;"><span>🛡️ Quỹ Dự Phòng Lõi (10%):</span><span class="val">+$${data.share_reserve_10.toLocaleString()} USD</span></div>
+                        <div style="margin-top: 12px; font-size: 11px; color: #475569; text-align: right;">Giám sát bởi SIA • ${data.timestamp}</div>
+                    `;
                 } else {
                     resultBox.classList.add('error');
-                    resultText.innerText = `[TỪ CHỐI]: ${data.message}`;
+                    invoiceContent.innerHTML = `<strong>⚠️ TỪ CHỐI LỆNH:</strong><br>${data.message}`;
                 }
             } catch (err) {
                 resultBox.classList.add('error');
-                resultText.innerText = 'Lỗi kết nối máy chủ.';
+                invoiceContent.innerHTML = '<strong>⚠️ LỖI KẾT NỐI:</strong> Không thể liên lạc với máy chủ đám mây.';
             }
         }
 
         async function fetchSystemLogs() {
             const logArea = document.getElementById('logArea');
             logArea.style.display = 'block';
-            logArea.innerText = 'MÁY CHỦ ĐANG TRÍCH XUẤT DỮ LIỆU SỔ CÁI...';
+            logArea.innerText = '⏳ Máy chủ đang trích xuất sổ cái kế toán bảo mật...';
 
             try {
                 const response = await fetch(`${baseUrl}/api/v1/logs`);
                 const data = await response.json();
                 logArea.innerText = data.logs;
             } catch (err) {
-                logArea.innerText = 'Không thể lấy dữ liệu nhật ký dòng tiền.';
+                logArea.innerText = '❌ Không thể truy xuất tệp nhật ký dòng tiền.';
             }
         }
     </script>
