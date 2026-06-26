@@ -67,6 +67,31 @@ func main() {
 	
 	// Thiết lập đường dẫn API thực tế để tiếp nhận dữ liệu toàn cầu
 	http.HandleFunc("/api/v1/royalty", handleRoyaltyIncoming)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+    if r.URL.Path != "/" {
+        http.NotFound(w, r)
+        return
+    }
+    w.Header().Set("Content-Type", "text/html; charset=utf-8")
+    w.Write([]byte(`
+        <html>
+        <head>
+            <title>SIA System</title>
+            <style>
+                body { font-family: sans-serif; text-align: center; padding: 50px; background: #f4f6f9; color: #333; }
+                h1 { color: #5b21b6; }
+                .status { display: inline-block; padding: 10px 20px; background: #10b981; color: white; border-radius: 5px; font-weight: bold; }
+            </style>
+        </head>
+        <body>
+            <h1>Security ID Automatic (SIA)</h1>
+            <p>Hệ thống máy chủ đám mây đang vận hành thực tế.</p>
+            <div class="status">STATUS: LIVE</div>
+        </body>
+        </html>
+    `))
+})
+
 
 	// Mở cổng mạng 8080 để lắng nghe kết nối Internet thực tế
 	fmt.Println("[HỆ THỐNG] Máy chủ SIA đang mở cổng :8080 và lắng nghe toàn cầu...")
