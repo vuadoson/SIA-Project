@@ -3,181 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIA - Nền Tảng Thương Mại Tác Quyền Toàn Phần</title>
+    <title>Hệ thống Bảo hộ Mã nguồn SIA</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f172a; color: #e2e8f0; margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
-        .container { max-width: 550px; width: 100%; background: #1e293b; padding: 25px; border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.4); border: 1px solid #334155; margin-top: 10px; box-sizing: border-box; }
-        h1 { color: #a78bfa; text-align: center; font-size: 26px; margin-bottom: 5px; font-weight: 800; letter-spacing: 0.5px; }
-        p.subtitle { text-align: center; color: #38bdf8; font-size: 14px; margin-bottom: 20px; font-weight: 500; }
-        
-        .section-title { font-size: 15px; color: #f43f5e; font-weight: bold; margin: 15px 0 10px 0; border-bottom: 1px solid #334155; padding-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;}
-        .form-group { margin-bottom: 14px; }
-        label { display: block; font-size: 13px; margin-bottom: 5px; color: #cbd5e1; font-weight: 600; }
-        input, select { width: 100%; padding: 11px; background: #0f172a; border: 1px solid #475569; border-radius: 8px; color: white; box-sizing: border-box; font-size: 14px; }
-        input:focus, select:focus { border-color: #38bdf8; outline: none; }
-        
-        .currency-block { display: flex; gap: 10px; }
-        .currency-block input { flex: 2; }
-        .currency-block select { flex: 1; }
-
-        button { width: 100%; padding: 14px; border: none; border-radius: 8px; color: white; font-weight: bold; font-size: 16px; cursor: pointer; transition: all 0.2s; margin-top: 10px; }
-        .btn-primary { background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.4); }
-        .btn-primary:hover { background: linear-gradient(135deg, #059669, #047857); transform: translateY(-1px); }
-        .btn-secondary { background: #334155; border: 1px solid #475569; margin-top: 12px; color: #e2e8f0; font-size: 14px; padding: 10px; }
-        
-        .result-box { margin-top: 20px; padding: 18px; background: #020617; border-radius: 10px; border-left: 5px solid #10b981; display: none; text-align: center; }
-        .qr-container { background: white; padding: 15px; display: inline-block; border-radius: 12px; margin: 15px 0; }
-        .qr-container img { max-width: 220px; width: 100%; height: auto; display: block; }
-        
-        .invoice-details { text-align: left; margin-top: 15px; font-size: 13px; border-top: 1px dashed #334155; padding-top: 10px; line-height: 1.6; }
-        .invoice-line { display: flex; justify-content: space-between; padding: 3px 0; }
-        .log-area { max-height: 180px; overflow-y: auto; background: #020617; padding: 12px; border-radius: 8px; margin-top: 15px; border: 1px solid #334155; font-family: monospace; font-size: 11px; color: #38bdf8; display: none; width: 100%; box-sizing: border-box; white-space: pre-wrap; }
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #ffffff;
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        h2 {
+            color: #1e293b;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #475569;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            color: #334155;
+            transition: all 0.3s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(39, 99, 235, 0.16);
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #1d4ed8;
+        }
+        .payment-section {
+            display: none;
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 2px dashed #e2e8f0;
+        }
+        .qr-box {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 15px;
+            border: 1px solid #e2e8f0;
+        }
+        #qrCodeImage {
+            max-width: 250px;
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .note {
+            font-size: 13px;
+            color: #ef4444;
+            background-color: #fef2f2;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid #ef4444;
+            text-align: left;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+        .success-text {
+            color: #16a34a;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>SIA COMMERCIAL V6</h1>
-        <p class="subtitle">Hệ Thống Quản Lý Đối Tác & Khởi Tạo Hợp Đồng Tác Quyền</p>
-        
-        <div class="section-title">📋 Bước 1: Khai báo hồ sơ khách hàng</div>
-        
+<div class="container">
+    <h2>Ký Kết Tác Quyền SIA</h2>
+    
+    <div id="orderForm">
         <div class="form-group">
-            <label>🏢 Tên Công ty / Tập đoàn / Cá nhân đối tác</label>
-            <input type="text" id="clientName" placeholder="Ví dụ: Tập đoàn Công nghệ Vingroup, Microsoft...">
+            <label for="clientName">Họ và tên khách hàng</label>
+            <input type="text" id="clientName" placeholder="Ví dụ: TRONG VU VAN" required>
         </div>
         
         <div class="form-group">
-            <label>📞 Số điện thoại liên hệ trực tiếp</label>
-            <input type="text" id="clientPhone" placeholder="Ví dụ: 0912345678">
+            <label for="clientPhone">Số điện thoại định danh đơn hàng</label>
+            <input type="tel" id="clientPhone" placeholder="Ví dụ: 0912345678" required>
         </div>
         
         <div class="form-group">
-            <label>📍 Địa chỉ trụ sở chính / Email nhận hồ sơ</label>
-            <input type="text" id="clientAddress" placeholder="Ví dụ: Số 7 Bằng Lăng, Hà Nội / contact@domain.com">
+            <label for="clientEmail">Email nhận mã bản quyền</label>
+            <input type="email" id="clientEmail" placeholder="Ví dụ: vuadoson@gmail.com" required>
         </div>
-
-        <div class="section-title">💰 Bước 2: Cấu hình gói tác quyền thương mại</div>
         
         <div class="form-group">
-            <label>💼 Loại Hình Khai Thác Bản Quyền</label>
+            <label for="actionType">Gói tác quyền tác vụ</label>
             <select id="actionType">
-                <option value="AI_TRAINING">🤖 Sử dụng dữ liệu huấn luyện các mô hình AI</option>
-                <option value="COMMERCIAL_USE">🏢 Khai thác thương mại / Tập đoàn Big Tech</option>
-                <option value="API_CALL">⚡ Truy vấn dữ liệu cốt lõi qua hệ thống API</option>
+                <option value="Gói Cơ Bản (Bảo hộ 1 năm)">Gói Cơ Bản (Bảo hộ 1 năm) - 50,000 VND</option>
+                <option value="Gói Nâng Cao (Trọn đời)">Gói Nâng Cao (Trọn đời) - 100,000 VND</option>
             </select>
         </div>
-
-        <div class="form-group">
-            <label>💵 Nhập Số Tiền Cần Thanh Toán</label>
-            <div class="currency-block">
-                <input type="number" id="amount" value="50000">
-                <select id="currency">
-                    <option value="VND">VND (Tài khoản Lõi)</option>
-                    <option value="USD">USD (Tài khoản Ngoại Tệ)</option>
-                    <option value="EUR">EUR (Tài khoản Ngoại Tệ)</option>
-                </select>
-            </div>
-        </div>
-
-        <button class="btn-primary" onclick="generateSIAPayment()">
-            ⚡ Ký Hợp Đồng & Khởi Tạo Mã QR Thanh Toán
-        </button>
         
-        <button class="btn-secondary" onclick="fetchSystemLogs()">
-            📊 Kiểm Toán Lịch Sử Giao Dịch Hệ Thống
-        </button>
-
-        <div id="resultBox" class="result-box">
-            <h3 style="color: #34d399; margin-top: 0;">💵 MÃ QR THANH TOÁN THỰC TẾ</h3>
-            <p style="font-size: 13px; color: #94a3b8; margin-bottom: 5px;" id="paymentMessage"></p>
-            
-            <div class="qr-container">
-                <img id="qrImage" src="" alt="Mã QR Thanh Toán MB">
-            </div>
-            
-            <p style="font-size: 12px; color: #f43f5e; margin-top: 0; font-weight: bold;">⚠️ Sử dụng ứng dụng Ngân hàng quét mã để thực hiện giao dịch pháp lý</p>
-
-            <div class="invoice-details" id="invoiceDetails"></div>
-        </div>
-
-        <div id="logArea" class="log-area"></div>
+        <button type="button" onclick="submitOrder()">Ký Hợp Đồng & Thanh Toán</button>
     </div>
 
-    <script>
-        const baseUrl = 'https://sia-project-wghg.onrender.com';
-        const siaKey = 'SIA-SUPER-KEY-2026';
+    <div id="paymentSection" class="payment-section">
+        <p class="success-text">🎉 Đã khởi tạo hợp đồng thành công!</p>
+        <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">Mời ông mở app ngân hàng quét mã VietQR dưới đây để thanh toán tự động:</p>
+        
+        <div class="qr-box">
+            <img id="qrCodeImage" src="" alt="Mã QR Thanh Toán VietQR">
+        </div>
+        
+        <div class="note">
+            <strong>🚨 Lưu ý cực kỳ quan trọng:</strong> Ông vui lòng <strong>giữ nguyên nội dung chuyển khoản</strong> do mã QR tự tạo (chính là số điện thoại định danh). Không chỉnh sửa nội dung này để hệ thống Go và MacroDroid tự động kích hoạt và gửi email bàn giao sản phẩm sau 3 giây!
+        </div>
+    </div>
+</div>
 
-        async function generateSIAPayment() {
-            const clientName = document.getElementById('clientName').value.trim();
-            const clientPhone = document.getElementById('clientPhone').value.trim();
-            const clientAddress = document.getElementById('clientAddress').value.trim();
-            
-            const actionType = document.getElementById('actionType').value;
-            const amount = parseFloat(document.getElementById('amount').value);
-            const currency = document.getElementById('currency').value;
-            
-            const resultBox = document.getElementById('resultBox');
-            const qrImage = document.getElementById('qrImage');
-            const paymentMessage = document.getElementById('paymentMessage');
-            const invoiceDetails = document.getElementById('invoiceDetails');
-
-            // Ràng buộc bắt buộc khách hàng điền danh tính trước khi cho thanh toán
-            if (!clientName || !clientPhone || !clientAddress) {
-                alert("⚠️ Vui lòng điền đầy đủ Tên, Số điện thoại và Địa chỉ để hệ thống xác minh danh tính hợp đồng!");
-                return;
-            }
-
-            resultBox.style.display = 'block';
-            paymentMessage.innerText = 'Hệ thống SIA đang đăng ký hồ sơ doanh nghiệp và tạo mã QR ngân hàng...';
-            qrImage.src = '';
-
-            // Tự động gộp thông tin khách hàng vào nội dung chuyển khoản để ngân hàng lưu giữ
-            const memoInfo = `SIA_${clientPhone}_${actionType}`;
-
-            // Tạo mã QR ngân hàng thụ hưởng MB chính chủ VU VAN TRONG
-            let targetAccount = "1005071981"; 
-            if (currency === "USD") targetAccount = "6801639330636";
-            else if (currency === "EUR") targetAccount = "5120703663032";
-
-            const qrCodeURL = `https://img.vietqr.io/image/MB-${targetAccount}-qr_only.png?amount=${amount}&addInfo=${memoInfo}`;
-            
-            const shareDev = amount * 0.7;
-            const shareHardware = amount * 0.2;
-            const shareReserve = amount * 0.1;
-            const currentTimestamp = new Date().toLocaleString();
-
-            paymentMessage.innerHTML = `Chuyển về số tài khoản: <strong>${targetAccount}</strong><br>Người nhận: <strong>VU VAN TRONG</strong>`;
-            qrImage.src = qrCodeURL;
-            
-            invoiceDetails.innerHTML = `
-                <div style="background: #0f172a; padding: 10px; border-radius: 6px; margin-bottom: 10px; border: 1px dashed #334155;">
-                    <strong style="color: #a78bfa;">📝 HỒ SƠ ĐỐI TÁC HỢP ĐỒNG:</strong><br>
-                    • Khách hàng: <span style="color: white;">${clientName}</span><br>
-                    • Hotline: <span style="color: white;">${clientPhone}</span><br>
-                    • Trụ sở / Email: <span style="color: white;">${clientAddress}</span>
-                </div>
-                <div class="invoice-line"><span>Tổng Số Tiền Tác Quyền:</span><strong>${amount.toLocaleString()} ${currency}</strong></div>
-                <div class="invoice-line" style="color: #60a5fa;"><span>👥 Quỹ Lập Trình Viên (70%):</span><span>${shareDev.toLocaleString()} ${currency}</span></div>
-                <div class="invoice-line" style="color: #fca5a5;"><span>☁️ Hạ Tầng Máy Chủ (20%):</span><span>${shareHardware.toLocaleString()} ${currency}</span></div>
-                <div class="invoice-line" style="color: #fef08a;"><span>🛡️ Quỹ Dự Phòng Hệ Thống (10%):</span><span>${shareReserve.toLocaleString()} ${currency}</span></div>
-                <div style="font-size: 10px; color: #475569; text-align: right; margin-top: 10px;">Mã định danh bảo mật • Hợp đồng số: SIA-${Date.now().toString().slice(-6)}</div>
-            `;
+<script>
+    function submitOrder() {
+        const name = document.getElementById("clientName").value.trim();
+        const phone = document.getElementById("clientPhone").value.trim();
+        const email = document.getElementById("clientEmail").value.trim();
+        const actionSelect = document.getElementById("actionType");
+        const actionType = actionSelect.value;
+        
+        if (!name || !phone || !email) {
+            alert("Vui lòng điền đầy đủ thông tin trước khi ký kết hợp đồng ông ơi!");
+            return;
         }
 
-        async function fetchSystemLogs() {
-            const logArea = document.getElementById('logArea');
-            logArea.style.display = 'block';
-            logArea.innerText = '⏳ Đang truy xuất dữ liệu sổ cái kiểm toán thương mại...';
-
-            try {
-                const response = await fetch(`${baseUrl}/api/v1/logs`);
-                const data = await response.json();
-                logArea.innerText = data.logs;
-            } catch (err) {
-                logArea.innerText = '❌ Lỗi trích xuất tệp nhật ký.';
-            }
+        // Tự động phân tích và quy đổi số tiền dựa theo gói lựa chọn
+        let amountVND = 50000;
+        if (actionType.includes("Trọn đời")) {
+            amountVND = 100000;
         }
-    </script>
+
+        // Bước 1: Gửi thông tin đăng ký lên máy chủ Render để lưu vào bộ nhớ đệm (Cache đợi tiền)
+        const orderData = {
+            client_name: name,
+            client_phone: phone,
+            client_address: email,
+            action_type: actionType,
+            amount: parseFloat(amountVND)
+        };
+
+        fetch('https://sia-project-wghg.onrender.com/api/v1/order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(orderData)
+        })
+        .then(response => {
+            if (response.ok) {
+                // Bước 2: Gọi API VietQR thiết lập mã QR điền sẵn số tiền + SĐT khách trong nội dung
+                const bankId = "MB"; 
+                const accountNo = "1005071981"; 
+                const template = "qr_only"; 
+                const accountName = "VUA DO SON"; 
+                
+                // Mã hóa chuỗi số điện thoại an toàn để đính kèm vào URL
+                const description = encodeURIComponent(phone); 
+
+                // Khởi tạo đường link ảnh QR thông minh chuẩn Napas
+                const qrUrl = `https://img.vietqr.io/image/${bankId}-${accountNo}-${template}.png?amount=${amountVND}&addInfo=${description}&accountName=${accountName}`;
+
+                // Gán ảnh QR vào giao diện và hiển thị phân đoạn hướng dẫn quét mã
+                document.getElementById("qrCodeImage").src = qrUrl;
+                document.getElementById("paymentSection").style.display = "block";
+                
+                // Cuộn mượt màn hình xuống mục thanh toán để tăng trải nghiệm khách hàng
+                document.getElementById("paymentSection").scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert("Có lỗi xảy ra khi đồng bộ đơn hàng đến máy chủ Render!");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Không thể kết nối đến máy chủ. Hãy đảm bảo dự án backend Render của ông đang hoạt động!");
+        });
+    }
+</script>
+
 </body>
 </html>
