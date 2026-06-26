@@ -20,7 +20,7 @@ type RoyaltyPayload struct {
 	Partner    string  `json:"partner"`     // Tên tập đoàn gửi dữ liệu
 	DeviceID   string  `json:"device_id"`   // Mã định danh thiết bị quét
 	ActionType string  `json:"action_type"` // Loại hình đối lưu (0-chạm, mã hóa...)
-	Amount     float64 `json:"amount"`      // Số tiền tác quyền ($0.01 hoặc $0.001)
+	Amount     float64 `json:"amount"`      // Số tiền tác quyền ($0.01)
 }
 
 // Khởi tạo thông tin cố định của ông
