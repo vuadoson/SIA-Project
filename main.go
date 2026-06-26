@@ -16,7 +16,7 @@ import (
 const (
 	smtpHost     = "smtp.gmail.com"
 	smtpPort     = "587"
-	senderEmail  = "hethong.sia.2026@gmail.com" // Thay bằng email của hệ thống ông
+	senderEmail  = "vuadoson@gmail.com" // Thay bằng email của hệ thống ông
 	senderPass   = "woug ejkp ndmr ttri"       // Mật khẩu ứng dụng (App Password) sinh ra từ Google
 )
 
