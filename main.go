@@ -32,15 +32,24 @@ var siaFounder = FounderConfig{
 }
 
 // Hàm xử lý khi có dòng tiền tác quyền thật đổ về qua Internet
-func handleRoyaltyIncoming(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "*")
+func handlerRoyaltyIncoming(w http.ResponseWriter, r *http.Request) {
+	// 1. Mở khóa cổng kết nối an toàn (CORS)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 
-	// Kiểm tra nếu không phải phương thức POST (gửi dữ liệu) thì từ chối
+	// 2. Chấp nhận lệnh kiểm tra an toàn (Preflight Request) của trình duyệt
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
+	// 3. Chỉ cho phép xử lý nếu là lệnh POST gửi dữ liệu thật
 	if r.Method != http.MethodPost {
 		http.Error(w, "Phương thức không được hỗ trợ", http.StatusMethodNotAllowed)
 		return
 	}
+
 
 	var data RoyaltyPayload
 	// Giải mã dữ liệu JSON thực tế gửi từ Internet
