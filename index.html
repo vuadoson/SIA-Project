@@ -12,10 +12,9 @@
         .form-group { margin-bottom: 15px; }
         label { display: block; font-size: 14px; margin-bottom: 5px; color: #cbd5e1; }
         input, select { width: 100%; padding: 10px; background: #0f172a; border: 1px solid #475569; border-radius: 6px; color: white; box-sizing: border-box; font-size: 15px; }
-        input:focus, select:focus { border-color: #8b5cf6; outline: none; }
         button { width: 100%; padding: 12px; background: #7c3aed; border: none; border-radius: 6px; color: white; font-weight: bold; font-size: 16px; cursor: pointer; transition: background 0.2s; margin-top: 10px; }
         button:hover { background: #6d28d9; }
-        .result-box { margin-top: 20px; padding: 15px; background: #0f172a; border-radius: 6px; border-left: 4px solid #475569; display: none; word-break: break-all; }
+        .result-box { margin-top: 20px; padding: 15px; background: #0f172a; border-radius: 6px; border-left: 4px solid #475569; display: none; white-space: pre-wrap; word-break: break-all; }
         .success { border-left-color: #10b981; color: #34d399; }
         .error { border-left-color: #ef4444; color: #f87171; }
     </style>
@@ -34,6 +33,57 @@
                 <option value="API_CALL">Truy vấn dữ liệu cốt lõi</option>
             </select>
         </div>
+
+        <div class="form-group">
+            <label>Số tiền thanh toán (USD)</label>
+            <input type="number" id="amount" value="500000">
+        </div>
+
+        <button onclick="sendSIARequest()">Kích Hoạt Xác Thực SIA</button>
+
+        <div id="resultBox" class="result-box">
+            <strong>Phản hồi từ Máy chủ Đám mây:</strong>
+            <div id="resultText" style="margin-top: 5px; font-family: monospace;"></div>
+        </div>
+    </div>
+
+    <script>
+        async function sendSIARequest() {
+            const actionType = document.getElementById('actionType').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const resultBox = document.getElementById('resultBox');
+            const resultText = document.getElementById('resultText');
+
+            resultBox.style.display = 'block';
+            resultBox.className = 'result-box';
+            resultText.innerText = 'Đang gửi lệnh xác thực lên đám mây...';
+
+            const url = 'https://sia-project-wghg.onrender.com/api/v1/royalty';
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action_type: actionType, amount: amount })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultBox.classList.add('success');
+                    resultText.innerText = `Trạng thái: Trực tuyến\nThông điệp: ${data.message}\nThời gian xử lý: ${data.timestamp}`;
+                } else {
+                    resultBox.classList.add('error');
+                    resultText.innerText = 'Lỗi hệ thống: Máy chủ từ chối yêu cầu.';
+                }
+            } catch (err) {
+                resultBox.classList.add('error');
+                resultText.innerText = 'Kết nối thất bại. Máy chủ Render đang khởi động lại hoặc cấu hình bị lỗi.';
+            }
+        }
+    </script>
+</body>
+</html>
 
         <div class="form-group">
             <label>Số tiền thanh toán (USD)</label>
