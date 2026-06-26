@@ -33,6 +33,9 @@ var siaFounder = FounderConfig{
 
 // Hàm xử lý khi có dòng tiền tác quyền thật đổ về qua Internet
 func handleRoyaltyIncoming(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
 	// Kiểm tra nếu không phải phương thức POST (gửi dữ liệu) thì từ chối
 	if r.Method != http.MethodPost {
 		http.Error(w, "Phương thức không được hỗ trợ", http.StatusMethodNotAllowed)
