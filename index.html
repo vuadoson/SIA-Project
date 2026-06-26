@@ -171,13 +171,11 @@
             return;
         }
 
-        // Tự động phân tích và quy đổi số tiền dựa theo gói lựa chọn
         let amountVND = 50000;
         if (actionType.includes("Trọn đời")) {
             amountVND = 100000;
         }
 
-        // Bước 1: Gửi thông tin đăng ký lên máy chủ Render để lưu vào bộ nhớ đệm (Cache đợi tiền)
         const orderData = {
             client_name: name,
             client_phone: phone,
@@ -195,23 +193,16 @@
         })
         .then(response => {
             if (response.ok) {
-                // Bước 2: Gọi API VietQR thiết lập mã QR điền sẵn số tiền + SĐT khách trong nội dung
                 const bankId = "MB"; 
                 const accountNo = "1005071981"; 
                 const template = "qr_only"; 
                 const accountName = "VUA DO SON"; 
-                
-                // Mã hóa chuỗi số điện thoại an toàn để đính kèm vào URL
                 const description = encodeURIComponent(phone); 
 
-                // Khởi tạo đường link ảnh QR thông minh chuẩn Napas
                 const qrUrl = `https://img.vietqr.io/image/${bankId}-${accountNo}-${template}.png?amount=${amountVND}&addInfo=${description}&accountName=${accountName}`;
 
-                // Gán ảnh QR vào giao diện và hiển thị phân đoạn hướng dẫn quét mã
                 document.getElementById("qrCodeImage").src = qrUrl;
                 document.getElementById("paymentSection").style.display = "block";
-                
-                // Cuộn mượt màn hình xuống mục thanh toán để tăng trải nghiệm khách hàng
                 document.getElementById("paymentSection").scrollIntoView({ behavior: 'smooth' });
             } else {
                 alert("Có lỗi xảy ra khi đồng bộ đơn hàng đến máy chủ Render!");
