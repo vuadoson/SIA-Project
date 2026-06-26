@@ -18,7 +18,7 @@ const (
 	smtpPort    = "587"
 	senderEmail = "vuadoson@gmail.com"
 	// 🚨 ÔNG ĐIỀN 16 KÝ TỰ MẬT KHẨU ỨNG DỤNG GOOGLE CỦA ÔNG VÀO ĐÂY:
-	senderPass  = "woug ejkp ndmr ttri" 
+	senderPass  = "xxxx xxxx xxxx xxxx" 
 )
 
 type ClientOrder struct {
@@ -82,7 +82,7 @@ func handlePhoneNotification(w http.ResponseWriter, r *http.Request) {
 				<h3>Xin chào %s,</h3>
 				<p>Hệ thống bảo hộ SIA xác nhận đã nhận đủ tiền thanh toán thông qua cổng quét mã QR tự động MB Bank.</p>
 				<hr/>
-				<h4>🎁 SẢN PHẨM CỦA ÔNG ĐA ĐƯỢC KÍCH HOẠT THÀNH CÔNG:</h4>
+				<h4>🎁 SẢN PHẨM CỦA ÔNG ĐÃ ĐƯỢC KÍCH HOẠT THÀNH CÔNG:</h4>
 				<ul>
 					<li><strong>Gói bản quyền:</strong> %s</li>
 					<li><strong>Mã bảo mật API Key:</strong> <code>%s</code></li>
@@ -104,7 +104,7 @@ func handlePhoneNotification(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// 🚨 NẾU KHÁCH GÕ SAI NỘI DUNG -> TỰ ĐỘNG BẮN MAIL BÁO ĐỘNG ĐỂ ÔNG HOÀN TIỀN
+	// 🚨 HỆ THỐNG HOÀN TIỀN: Khách gõ sai nội dung -> Bắn mail báo động cho ông
 	if !isMatched {
 		log.Printf("⚠️ CẢNH BÁO: Giao dịch sai nội dung: %s", smsContent)
 		
