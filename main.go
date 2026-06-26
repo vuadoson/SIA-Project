@@ -18,7 +18,7 @@ const (
 	smtpPort    = "587"
 	senderEmail = "vuadoson@gmail.com"
 	// 🚨 ÔNG ĐIỀN 16 KÝ TỰ MẬT KHẨU ỨNG DỤNG GOOGLE CỦA ÔNG VÀO ĐÂY:
-	senderPass  = "xxxx xxxx xxxx xxxx" 
+	senderPass  = "woug ejkp ndmr ttri" 
 )
 
 type ClientOrder struct {
