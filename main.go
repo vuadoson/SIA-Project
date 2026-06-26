@@ -50,6 +50,12 @@ func handlerRoyaltyIncoming(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// 3. Chỉ cho phép xử lý nếu là lệnh POST gửi dữ liệu thật
+	if r.Method != http.MethodPost {
+		http.Error(w, "Phương thức không được hỗ trợ", http.StatusMethodNotAllowed)
+		return
+	}
+
 
 	var data RoyaltyPayload
 	// Giải mã dữ liệu JSON thực tế gửi từ Internet
