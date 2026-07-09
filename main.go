@@ -17,8 +17,8 @@ const (
 	smtpHost    = "smtp.gmail.com"
 	smtpPort    = "587"
 	senderEmail = "vuadoson@gmail.com"
-	// 🚨 ÔNG ĐIỀN 16 KÝ TỰ MẬT KHẨU ỨNG DỤNG GOOGLE CỦA ÔNG VÀO ĐÂY:
-	senderPass  = "woug ejkp ndmr ttri" 
+	// 🚨 Mật khẩu ứng dụng 16 ký tự Google của bạn:
+	senderPass  = "woug ejkp ndmr ttri" 
 )
 
 type ClientOrder struct {
@@ -38,6 +38,27 @@ func generateAPIKey() string {
 	return "SIA_KEY_" + hex.EncodeToString(bytes)
 }
 
+// ==========================================
+// 🌐 HÀM XỬ LÝ ĐƯỜNG DẪN GIAO DIỆN (MỚI THÊM)
+// ==========================================
+func handleIndexPage(w http.ResponseWriter, r *http.Request) {
+	// Nếu người dùng gõ bậy đường dẫn không tồn tại, trả về 404 chuẩn
+	if r.URL.Path != "/" {
+		http.NotFound(w, r)
+		return
+	}
+	// Trả về file index.html làm trang chủ mặc định
+	http.ServeFile(w, r, "index.html")
+}
+
+func handleEnglishPage(w http.ResponseWriter, r *http.Request) {
+	// Trả về file en.html khi truy cập /en
+	http.ServeFile(w, r, "en.html")
+}
+
+// ==========================================
+// ⚙️ CÁC HÀM XỬ LÝ BACKEND CỦA BẠN (GIỮ NGUYÊN)
+// ==========================================
 func handleCreateOrder(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -104,7 +125,6 @@ func handlePhoneNotification(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// 🚨 HỆ THỐNG HOÀN TIỀN: Khách gõ sai nội dung -> Bắn mail báo động cho ông
 	if !isMatched {
 		log.Printf("⚠️ CẢNH BÁO: Giao dịch sai nội dung: %s", smsContent)
 		
@@ -131,6 +151,11 @@ func handlePhoneNotification(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	// 📂 Định nghĩa các Route hiển thị giao diện HTML
+	http.HandleFunc("/", handleIndexPage)       // Truy cập: https://sia-project-wghg.onrender.com/ -> Hiện index.html
+	http.HandleFunc("/en", handleEnglishPage)  // Truy cập: https://sia-project-wghg.onrender.com/en -> Hiện en.html
+
+	// ⚙️ Định nghĩa các Route API xử lý tính năng ngầm của bạn
 	http.HandleFunc("/api/v1/order", handleCreateOrder)
 	http.HandleFunc("/api/v1/sms-trigger", handlePhoneNotification)
 	
@@ -138,5 +163,6 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
+	log.Printf("Server SIA đang chạy tại cổng %s...", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
