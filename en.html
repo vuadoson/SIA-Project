@@ -101,7 +101,7 @@ nav {
 .hero-title .line3 { color: var(--gold); }
 .hero-sub { max-width: 600px; margin: 0 auto 40px; font-size: 1.1rem; color: var(--text-2); line-height: 1.7; }
 .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-.btn-primary { background: var(--cyan); color: #000; padding: 14px 32px; border-radius: 10px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1rem; transition: box-shadow .25s, transform .2s; }
+.btn-primary { background: var(--cyan); color: #000; padding: 14px 32px; border-radius: 10px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1rem; transition: box-shadow .25s, transform .2s; border: none; cursor: pointer; }
 .btn-primary:hover { box-shadow: 0 0 30px rgba(0,201,255,0.5); transform: translateY(-2px); }
 .btn-secondary { background: transparent; color: var(--text); padding: 14px 32px; border-radius: 10px; border: 1.5px solid rgba(255,255,255,0.2); font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 1rem; transition: border-color .2s, transform .2s; }
 .btn-secondary:hover { border-color: var(--cyan); transform: translateY(-2px); }
@@ -270,7 +270,6 @@ footer { background: var(--bg-0); border-top: 1px solid var(--border); padding: 
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-logo"><span>S</span>IA</div>
   <div class="nav-links">
@@ -287,7 +286,6 @@ footer { background: var(--bg-0); border-top: 1px solid var(--border); padding: 
   </div>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
@@ -337,7 +335,6 @@ footer { background: var(--bg-0); border-top: 1px solid var(--border); padding: 
   </div>
 </section>
 
-<!-- PROBLEM -->
 <section id="problem">
   <div style="max-width:1200px;margin:0 auto;text-align:center;">
     <div class="section-label">The Problem</div>
@@ -368,7 +365,6 @@ footer { background: var(--bg-0); border-top: 1px solid var(--border); padding: 
   </div>
 </section>
 
-<!-- ABOUT -->
 <section id="about">
   <div class="about-wrap">
     <div class="about-visual">
@@ -418,7 +414,6 @@ footer { background: var(--bg-0); border-top: 1px solid var(--border); padding: 
   </div>
 </section>
 
-<!-- COMPONENTS -->
 <section id="components">
   <div style="max-width:1300px;margin:0 auto;text-align:center;">
     <div class="section-label">5 Core Components</div>
@@ -459,7 +454,6 @@ footer { background: var(--bg-0); border-top: 1px solid var(--border); padding: 
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
 <section id="how">
   <div style="max-width:1200px;margin:0 auto;">
     <div class="section-label center">How It Works</div>
@@ -509,7 +503,6 @@ footer { background: var(--bg-0); border-top: 1px solid var(--border); padding: 
   </div>
 </section>
 
-<!-- INDUSTRIES -->
 <section id="industries">
   <div style="max-width:1200px;margin:0 auto;text-align:center;">
     <div class="section-label">Use Cases</div>
@@ -568,7 +561,6 @@ footer { background: var(--bg-0); border-top: 1px solid var(--border); padding: 
   </div>
 </section>
 
-<!-- ENTERPRISE -->
 <section id="enterprise">
   <div class="enterprise-glow"></div>
   <div class="enterprise-wrap">
@@ -640,7 +632,6 @@ footer { background: var(--bg-0); border-top: 1px solid var(--border); padding: 
   </div>
 </section>
 
-<!-- INDIVIDUAL -->
 <section id="individual">
   <div style="max-width:1100px;margin:0 auto;text-align:center;">
     <div class="section-label">Personal Plans</div>
@@ -649,7 +640,7 @@ footer { background: var(--bg-0); border-top: 1px solid var(--border); padding: 
     <div class="pricing-grid">
       <div class="price-card">
         <div class="plan-name">Free Trial</div>
-        <div class="price-num">Free</div>
+        <div class="price-num">0đ</div>
         <div class="price-unit">30-day trial</div>
         <ul class="price-features">
           <li>Basic identity registration</li>
@@ -657,12 +648,12 @@ footer { background: var(--bg-0); border-top: 1px solid var(--border); padding: 
           <li>Authentication for 1 device</li>
           <li>Email support</li>
         </ul>
-        <a href="https://vuadoson.github.io/SIA-Project/" class="btn-plan btn-plan-outline" target="_blank">Get Started Free</a>
+        <button id="btn-plan-demo" class="btn-plan btn-plan-outline">Get Started Free</button>
       </div>
       <div class="price-card featured">
         <div class="featured-tag">⭐ MOST POPULAR</div>
         <div class="plan-name">Standard</div>
-        <div class="price-num">$2</div>
+        <div class="price-num">50.000đ</div>
         <div class="price-unit">1-year protection</div>
         <ul class="price-features">
           <li>Full 5 biometric factors</li>
@@ -672,11 +663,11 @@ footer { background: var(--bg-0); border-top: 1px solid var(--border); padding: 
           <li>Priority support</li>
           <li>Automatic security updates</li>
         </ul>
-        <a href="https://vuadoson.github.io/SIA-Project/" class="btn-plan btn-plan-primary" target="_blank">Register Now</a>
+        <button id="btn-plan-standard" class="btn-plan btn-plan-primary">Register Now</button>
       </div>
       <div class="price-card">
         <div class="plan-name">Lifetime</div>
-        <div class="price-num">$4</div>
+        <div class="price-num">100.000đ</div>
         <div class="price-unit">Lifetime protection</div>
         <ul class="price-features">
           <li>All Standard plan features</li>
@@ -686,14 +677,13 @@ footer { background: var(--bg-0); border-top: 1px solid var(--border); padding: 
           <li>SIA Premium certificate</li>
           <li>Exclusive partner benefits</li>
         </ul>
-        <a href="https://vuadoson.github.io/SIA-Project/" class="btn-plan btn-plan-gold" target="_blank">Choose This Plan</a>
+        <button id="btn-plan-lifetime" class="btn-plan btn-plan-gold">Choose This Plan</button>
       </div>
     </div>
     <p style="color:var(--text-3);font-size:.85rem;margin-top:32px;">Secure payment via bank transfer · Automatic activation · No contract lock-in</p>
   </div>
 </section>
 
-<!-- WHY SIA -->
 <section id="why">
   <div style="max-width:1100px;margin:0 auto;text-align:center;">
     <div class="section-label">Why Choose SIA</div>
@@ -733,7 +723,6 @@ footer { background: var(--bg-0); border-top: 1px solid var(--border); padding: 
   </div>
 </section>
 
-<!-- COMPARE -->
 <section id="compare">
   <div style="max-width:1100px;margin:0 auto;text-align:center;">
     <div class="section-label">Comparison</div>
@@ -805,7 +794,6 @@ footer { background: var(--bg-0); border-top: 1px solid var(--border); padding: 
   </div>
 </section>
 
-<!-- FAQ -->
 <section id="faq">
   <div style="max-width:800px;margin:0 auto;">
     <div class="section-label center">Frequently Asked Questions</div>
@@ -839,7 +827,6 @@ footer { background: var(--bg-0); border-top: 1px solid var(--border); padding: 
   </div>
 </section>
 
-<!-- CTA -->
 <section id="cta">
   <div class="cta-glow"></div>
   <div style="position:relative;z-index:1;">
@@ -847,7 +834,7 @@ footer { background: var(--bg-0); border-top: 1px solid var(--border); padding: 
     <h2 class="section-title">Ready to shape the<br><span style="color:var(--cyan)">future of identity?</span></h2>
     <p>Whether you're an individual looking to protect your digital identity, or an enterprise seeking next-generation authentication — SIA has the right answer for you.</p>
     <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
-      <a href="https://vuadoson.github.io/SIA-Project/" target="_blank" class="btn-primary">Register as Individual →</a>
+      <a href="#individual" class="btn-primary">Register as Individual →</a>
       <a href="mailto:vuadoson@gmail.com" class="btn-secondary">Enterprise Inquiry</a>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:40px;">
@@ -859,7 +846,6 @@ footer { background: var(--bg-0); border-top: 1px solid var(--border); padding: 
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div>
@@ -911,6 +897,7 @@ window.addEventListener('scroll', () => {
   if (window.scrollY > 50) { nav.style.padding = '12px 60px'; nav.style.background = 'rgba(4,8,16,0.95)'; }
   else { nav.style.padding = '18px 60px'; nav.style.background = 'rgba(4,8,16,0.7)'; }
 });
+
 const orbit = document.querySelector('.orbit');
 const dots = document.querySelectorAll('.orbit-dot');
 const baseAngles = [0, 72, 144, 216, 288];
@@ -933,23 +920,61 @@ orbit.style.inset = '0';
 orbit.style.animation = 'none';
 dots.forEach(d => d.style.animation = 'none');
 animateOrbit();
+
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const target = document.querySelector(a.getAttribute('href'));
     if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
   });
 });
+
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) { entry.target.style.opacity = '1'; entry.target.style.transform = 'translateY(0)'; }
   });
 }, { threshold: 0.1 });
+
 document.querySelectorAll('.comp-card, .industry-card, .why-card, .price-card, .partner-card, .step-row').forEach(el => {
   el.style.opacity = '0';
   el.style.transform = 'translateY(24px)';
   el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
   observer.observe(el);
 });
+
+// --- LOGIC KẾT NỐI THANH TOÁN TỰ ĐỘNG ---
+const RENDER_SERVER_URL = "https://sia-project-wghg.onrender.com";
+
+async function handlePayment(packageName, packageAmount, event) {
+  let triggerButton = event.target;
+  const originalText = triggerButton.innerText;
+  
+  triggerButton.innerText = "⏳ Connecting to SIA Gateway...";
+  triggerButton.style.pointerEvents = "none";
+
+  try {
+    const response = await fetch(`${RENDER_SERVER_URL}/create-payment-link`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount: packageAmount, packageName: packageName })
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      if (data.checkoutUrl || data.url) {
+        window.location.href = data.checkoutUrl || data.url;
+        return;
+      }
+    }
+    window.location.href = `${RENDER_SERVER_URL}/pay?package=${packageName}&amount=${packageAmount}`;
+  } catch (error) {
+    console.error("Payment connection failed:", error);
+    window.location.href = `${RENDER_SERVER_URL}/pay?package=${packageName}&amount=${packageAmount}`;
+  }
+}
+
+document.getElementById("btn-plan-demo").addEventListener("click", (e) => handlePayment("Demo", 0, e));
+document.getElementById("btn-plan-standard").addEventListener("click", (e) => handlePayment("Standard", 50000, e));
+document.getElementById("btn-plan-lifetime").addEventListener("click", (e) => handlePayment("Lifetime", 100000, e));
 </script>
 </body>
 </html>
