@@ -48,7 +48,7 @@
         .security-box ul { margin-top: 12px; margin-left: 20px; color: #a0aec0; }
         .security-box ul li { margin-bottom: 6px; font-size: 13.5px; }
         
-        /* SCANNER ANIMATION */
+        /* SCANNER RADAR ANIMATION */
         .scanner-wrap { width: 180px; height: 180px; margin: 0 auto 30px auto; position: relative; display: flex; align-items: center; justify-content: center; }
         .scanner-core { font-size: 40px; position: absolute; z-index: 2; }
         .scanner-ring { position: absolute; border: 2px solid rgba(0, 210, 255, 0.2); border-radius: 50%; top: 0; left: 0; right: 0; bottom: 0; margin: auto; }
@@ -72,12 +72,11 @@
         .faq-item h4 { font-size: 16px; margin-bottom: 8px; color: #00d2ff; line-height: 1.4; }
         .faq-item p { color: #a0aec0; font-size: 14px; line-height: 1.6; }
 
-        /* --- MEDIA QUERIES FIXED FOR MOBILE & TABLET --- */
+        /* RESPONSIVE MEDIA QUERIES */
         @media (max-width: 1024px) {
             .hero h1 { font-size: 36px; }
             .section-title { font-size: 26px; }
         }
-        
         @media (max-width: 768px) {
             .nav-links { display: none; }
             nav { padding: 15px 15px; gap: 10px; }
@@ -89,7 +88,6 @@
             .security-box { padding: 20px; }
             .security-box h3 { font-size: 18px; }
         }
-
         @media (max-width: 480px) {
             nav { padding: 12px 10px; }
             .nav-logo { font-size: 20px; }
@@ -185,7 +183,7 @@
             
             <div class="security-box">
                 <h3>🛡️ 1. Không lưu trữ sinh trắc học gốc (No Honey Pot)</h3>
-                <p>Các hệ thống thông thường lưu hình ảnh vân tay hoặc khuôn mặt trên Server, nếu Server bị hack, dữ liệu sẽ mất. SIA thì khác: khi quét 5 yếu tố sinh học của bạn, hệ thống lập tức chuyển hóa chúng thành một chuỗi mã toán học độc nhất (Hash) thông qua thuật toán mã hóa một chiều. SIA không giữ vân tay của bạn, SIA chỉ giữ "phương trình toán học" của nó. Kẻ tấn công có hack được Server cũng chỉ thu về những ký tự vô nghĩa, không cách nào dịch ngược lại thành mô hình sinh học gốc.</p>
+                <p>Các hệ thống thông thường lưu hình ảnh vân tay hoặc khuôn mặt trên Server, nếu Server bị hack, dữ liệu sẽ mất. SIA thì khác: khi quét 5 yếu tố sinh học của bạn, hệ thống lập tức chuyển hóa chúng thành một chuỗi mã toán học độc nhất (Hash) thông qua thuật toán mã hóa một chiều. SIA không giữ vân tay của bạn, SIA chỉ giữ "phương trình toán học" của nó.</p>
             </div>
 
             <div class="security-box">
@@ -196,12 +194,11 @@
                     <li>Sự lưu thông của mạch máu ngầm dưới da lòng bàn tay.</li>
                     <li>Tần số rung vi mô của dây thanh quản chống âm thanh giả lập.</li>
                 </ul>
-                <p style="margin-top: 10px;">Nếu không có dấu hiệu của một cơ thể sống thực sự đang vận hành, hệ thống sẽ tự động khóa truy cập ngay lập tức.</p>
             </div>
 
             <div class="security-box">
                 <h3>⚙️ 3. Cơ chế Xác Thực Zero-Knowledge Proofs</h3>
-                <p>Khi bạn đăng nhập vào bất kỳ nền tảng nào tích hợp SIA, hệ thống kiểm tra và xác nhận: "Đúng, đây là chủ tài khoản" mà <strong>không hề tiết lộ bất kỳ thông tin cá nhân nào</strong> của bạn cho ứng dụng hay trang web đó. Cơ chế này loại bỏ hoàn toàn nguy cơ bị nghe lén dữ liệu đường truyền (Man-in-the-middle attack) hoặc rò rỉ chéo khi một bên thứ ba bị tấn công.</p>
+                <p>Khi bạn đăng nhập vào bất kỳ nền tảng nào tích hợp SIA, hệ thống kiểm tra và xác nhận: "Đúng, đây là chủ tài khoản" mà không hề tiết lộ bất kỳ thông tin cá nhân nào của bạn cho ứng dụng hay trang web đó.</p>
             </div>
         </div>
     </section>
@@ -299,17 +296,12 @@
         <div class="section-title">Câu Hỏi Thường Gặp<br><span>Giải đáp thắc mắc về SIA</span></div>
         <div class="faq-item">
             <h4>Dữ liệu sinh trắc học của tôi có bị lưu trên máy chủ không?</h4>
-            <p>Không. SIA sử dụng công nghệ mã hóa phi tập trung. Dữ liệu của bạn được băm (hash) thành các chuỗi mã toán học độc lập và chỉ lưu trực tiếp trên thiết bị của bạn hoặc chuỗi khối bảo mật, không ai có quyền truy cập kể cả chúng tôi.</p>
-        </div>
-        <div class="faq-item">
-            <h4>Nếu tôi bị thương ở tay hoặc thay đổi giọng nói thì sao?</h4>
-            <p>Hệ thống của SIA sử dụng cơ chế xác thực chéo kết hợp giữa 5 yếu tố khác nhau. Nếu một yếu tố gặp trục trặc, thuật toán AI thông minh sẽ tự động tính toán trọng số của các yếu tố còn lại để định danh bạn một cách chính xác.</p>
+            <p>Không. SIA sử dụng công nghệ mã hóa phi tập trung. Dữ liệu của bạn được băm thành các chuỗi mã toán học độc lập và chỉ lưu trực tiếp trên thiết bị của bạn.</p>
         </div>
     </section>
 
     <section id="cta" style="text-align: center; padding: 60px 20px; background: rgba(0, 210, 255, 0.02);">
         <h2 style="font-size: 26px; margin-bottom: 15px;">Sẵn Sàng Bước Vào Kỷ Nguyên Không Mật Khẩu?</h2>
-        <p style="color: #a0aec0; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; font-size: 15px;">Để lại thông tin hoặc liên hệ trực tiếp với đội ngũ kỹ sư của SIA để nhận lộ trình tích hợp bảo mật an toàn nhất cho hệ thống của bạn.</p>
         <a href="mailto:support@sia.system" class="btn-primary" style="margin: 0;">Gửi Mail Cho Chúng Tôi</a>
     </section>
 
