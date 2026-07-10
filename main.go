@@ -1,48 +1,33 @@
 package main
 
 import (
-	"embed"
-	"html/template"
 	"log"
 	"net/http"
 	"os"
 )
 
-//go:embed index.html en.html
-var templateFiles embed.FS
-
 func main() {
-	// Khởi tạo và parse các template đã nhúng sẵn
-	tmpl, err := template.ParseFS(templateFiles, "index.html", "en.html")
-	if err != nil {
-		log.Fatalf("Lỗi nạp file HTML: %v", err)
-	}
-
-	// Route bản tiếng Việt (Trang chủ)
+	// 1. Route cho trang chủ Tiếng Việt (/)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		// Ngăn chặn các request sai đường dẫn tĩnh rơi vào đây gây lỗi 404
+		// Ngăn chặn các request đường dẫn lạ (không tồn tại) tự động nhảy vào index.html
 		if r.URL.Path != "/" {
 			http.NotFound(w, r)
 			return
 		}
-		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		tmpl.ExecuteTemplate(w, "index.html", nil)
+		http.ServeFile(w, r, "index.html")
 	})
 
-	// Route bản tiếng Anh
+	// 2. Route phục vụ trang Tiếng Anh (/en) - Sửa triệt để lỗi 404
 	http.HandleFunc("/en", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		tmpl.ExecuteTemplate(w, "en.html", nil)
+		http.ServeFile(w, r, "en.html")
 	})
 
-	// Lấy cổng Port từ hệ thống Render (mặc định là 8080 nếu chạy local)
+	// Lấy PORT từ môi trường của Render (mặc định nếu thiếu là 8080)
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 	}
 
-	log.Printf("Server SIA đang chạy mượt mà tại cổng :%s", port)
-	if err := http.ListenAndServe(":"+port, nil); err != nil {
-		log.Fatalf("Không thể khởi động server: %v", err)
-	}
+	log.Println("SIA Server đang chạy mượt mà trên port: " + port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
