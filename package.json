@@ -1,0 +1,13 @@
+{
+  "name": "payment-system-payos",
+  "version": "1.0.0",
+  "description": "Hệ thống tự động nhả mã bản quyền kết nối MB Bank qua PayOS",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "@payos/node": "^1.0.8"
+  }
+}
