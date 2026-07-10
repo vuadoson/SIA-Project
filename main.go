@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/rand"
+	"embed" // 🌟 Thêm thư viện nhúng file của Go
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
@@ -13,11 +14,14 @@ import (
 	"time"
 )
 
+// 🌟 Ép Go đóng gói sẵn 2 file HTML này vào bộ nhớ khi biên dịch
+//go:embed index.html en.html
+var templateFiles embed.FS
+
 const (
 	smtpHost    = "smtp.gmail.com"
 	smtpPort    = "587"
 	senderEmail = "vuadoson@gmail.com"
-	// 🚨 Mật khẩu ứng dụng 16 ký tự Google của bạn:
 	senderPass  = "woug ejkp ndmr ttri" 
 )
 
@@ -39,25 +43,34 @@ func generateAPIKey() string {
 }
 
 // ==========================================
-// 🌐 HÀM XỬ LÝ ĐƯỜNG DẪN GIAO DIỆN (MỚI THÊM)
+// 🌐 HÀM XỬ LÝ ĐỌC GIAO DIỆN TỪ BỘ NHỚ NHÚNG
 // ==========================================
 func handleIndexPage(w http.ResponseWriter, r *http.Request) {
-	// Nếu người dùng gõ bậy đường dẫn không tồn tại, trả về 404 chuẩn
 	if r.URL.Path != "/" {
 		http.NotFound(w, r)
 		return
 	}
-	// Trả về file index.html làm trang chủ mặc định
-	http.ServeFile(w, r, "index.html")
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	data, err := templateFiles.ReadFile("index.html")
+	if err != nil {
+		http.Error(w, "Không tìm thấy file index.html trong bộ nhúng", http.StatusInternalServerError)
+		return
+	}
+	w.Write(data)
 }
 
 func handleEnglishPage(w http.ResponseWriter, r *http.Request) {
-	// Trả về file en.html khi truy cập /en
-	http.ServeFile(w, r, "en.html")
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	data, err := templateFiles.ReadFile("en.html")
+	if err != nil {
+		http.Error(w, "Không tìm thấy file en.html trong bộ nhúng", http.StatusInternalServerError)
+		return
+	}
+	w.Write(data)
 }
 
 // ==========================================
-// ⚙️ CÁC HÀM XỬ LÝ BACKEND CỦA BẠN (GIỮ NGUYÊN)
+// ⚙️ CÁC HÀM XỬ LÝ BACKEND CỦA ÔNG (GIỮ NGUYÊN)
 // ==========================================
 func handleCreateOrder(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -151,11 +164,8 @@ func handlePhoneNotification(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	// 📂 Định nghĩa các Route hiển thị giao diện HTML
-	http.HandleFunc("/", handleIndexPage)       // Truy cập: https://sia-project-wghg.onrender.com/ -> Hiện index.html
-	http.HandleFunc("/en", handleEnglishPage)  // Truy cập: https://sia-project-wghg.onrender.com/en -> Hiện en.html
-
-	// ⚙️ Định nghĩa các Route API xử lý tính năng ngầm của bạn
+	http.HandleFunc("/", handleIndexPage)
+	http.HandleFunc("/en", handleEnglishPage)
 	http.HandleFunc("/api/v1/order", handleCreateOrder)
 	http.HandleFunc("/api/v1/sms-trigger", handlePhoneNotification)
 	
