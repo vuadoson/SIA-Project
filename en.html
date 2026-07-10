@@ -48,7 +48,7 @@
         .security-box ul { margin-top: 12px; margin-left: 20px; color: #a0aec0; }
         .security-box ul li { margin-bottom: 6px; font-size: 13.5px; }
         
-        /* SCANNER ANIMATION */
+        /* SCANNER RADAR ANIMATION */
         .scanner-wrap { width: 180px; height: 180px; margin: 0 auto 30px auto; position: relative; display: flex; align-items: center; justify-content: center; }
         .scanner-core { font-size: 40px; position: absolute; z-index: 2; }
         .scanner-ring { position: absolute; border: 2px solid rgba(0, 210, 255, 0.2); border-radius: 50%; top: 0; left: 0; right: 0; bottom: 0; margin: auto; }
@@ -72,12 +72,11 @@
         .faq-item h4 { font-size: 16px; margin-bottom: 8px; color: #00d2ff; line-height: 1.4; }
         .faq-item p { color: #a0aec0; font-size: 14px; line-height: 1.6; }
 
-        /* --- MEDIA QUERIES FIXED FOR MOBILE & TABLET --- */
+        /* RESPONSIVE MEDIA QUERIES */
         @media (max-width: 1024px) {
             .hero h1 { font-size: 36px; }
             .section-title { font-size: 26px; }
         }
-        
         @media (max-width: 768px) {
             .nav-links { display: none; }
             nav { padding: 15px 15px; gap: 10px; }
@@ -89,7 +88,6 @@
             .security-box { padding: 20px; }
             .security-box h3 { font-size: 18px; }
         }
-
         @media (max-width: 480px) {
             nav { padding: 12px 10px; }
             .nav-logo { font-size: 20px; }
@@ -184,8 +182,8 @@
             <div class="section-title" style="margin-top: 0;">Why SIA <span>Cannot Be Replicated Or Attacked?</span></div>
             
             <div class="security-box">
-                <h3>🛡️ 1. Zero Raw Biometric Storage (No Honey Pot for Hackers)</h3>
-                <p>Traditional systems save fingerprint or face images on a centralized server—if the server gets breached, data is gone. SIA is fundamentally different: when scanning your 5 biological factors, the system instantly transforms them into a unique mathematical string (Hash) via a one-way cryptographic algorithm. SIA never holds your real biometrics; it only keeps the "mathematical equation" representing it. Even if an attacker hacks the server, they only get useless code that cannot be reverse-engineered.</p>
+                <h3>🛡️ 1. Zero Raw Biometric Storage (No Honey Pot)</h3>
+                <p>Traditional systems save fingerprint or face images on a centralized server—if the server gets breached, data is gone. SIA is fundamentally different: when scanning your 5 biological factors, the system instantly transforms them into a unique mathematical string (Hash) via a one-way cryptographic algorithm.</p>
             </div>
 
             <div class="security-box">
@@ -196,12 +194,11 @@
                     <li>Subdermal blood flow mapping beneath the palm.</li>
                     <li>Micro-vibration voice frequencies to block simulated audio synthetics.</li>
                 </ul>
-                <p style="margin-top: 10px;">Without the concrete parameters of an active living body, the system denies access immediately.</p>
             </div>
 
             <div class="security-box">
                 <h3>⚙️ 3. Zero-Knowledge Proofs (ZKP) Architecture</h3>
-                <p>When you log into any third-party platform integrated with SIA, the system verifies and confirms: "Yes, this is the legitimate account owner" <strong>without revealing any of your underlying personal data</strong> to that application or website. This eliminates any risks of data interception (Man-in-the-middle attacks) or cross-leaks if a partner application gets breached.</p>
+                <p>When you log into any third-party platform integrated with SIA, the system verifies and confirms: "Yes, this is the legitimate account owner" without revealing any of your underlying personal data to that application or website.</p>
             </div>
         </div>
     </section>
@@ -299,17 +296,12 @@
         <div class="section-title">Frequently Asked Questions<br><span>SIA knowledge base</span></div>
         <div class="faq-item">
             <h4>Is my biometric data stored on your servers?</h4>
-            <p>No. SIA uses decentralized cryptographic architectures. Your data is hashed into standalone mathematical equations and stays strictly on your local device or secure blockchain framework; no one can access it, including us.</p>
-        </div>
-        <div class="faq-item">
-            <h4>What happens if I injure my hand or my voice changes?</h4>
-            <p>SIA relies on a cross-verification engine utilizing 5 distinct biological factors. If one factor fails, the intelligent AI engine re-calculates the relative weights of the remaining factors to identify you flawlessly.</p>
+            <p>No. SIA uses decentralized cryptographic architectures. Your data is hashed into standalone mathematical equations and stays strictly on your local device.</p>
         </div>
     </section>
 
     <section id="cta" style="text-align: center; padding: 60px 20px; background: rgba(0, 210, 255, 0.02);">
         <h2 style="font-size: 26px; margin-bottom: 15px;">Ready to Step Into the Passwordless Future?</h2>
-        <p style="color: #a0aec0; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; font-size: 15px;">Leave us a message or reach out directly to SIA engineers to receive the most efficient security migration roadmap for your network.</p>
         <a href="mailto:support@sia.system" class="btn-primary" style="margin: 0;">Email Us Directly</a>
     </section>
 
