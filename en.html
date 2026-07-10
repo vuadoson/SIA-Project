@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIA - Security ID Automatic System</title>
     <style>
-        /* Giữ nguyên toàn bộ CSS cũ của sếp ở đây */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: #020813; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; overflow-x: hidden; }
         nav { display: flex; justify-content: space-between; align-items: center; padding: 20px; max-width: 1200px; margin: 0 auto; }
@@ -13,25 +12,56 @@
         .nav-logo span { color: #00d2ff; }
         .nav-links a { color: #a0aec0; text-decoration: none; margin-left: 20px; font-size: 14px; transition: color 0.3s; }
         .nav-links a:hover { color: #fff; }
-        .nav-cta { background: #00d2ff; color: #020813 !important; padding: 10px 20px; border-radius: 5px; font-weight: bold; }
+        .nav-cta { background: #00d2ff; color: #020813 !important; padding: 10px 20px; border-radius: 5px; font-weight: bold; text-decoration: none; }
         .lang-btn { background: transparent; color: #00d2ff; border: 1px solid #00d2ff; padding: 8px 16px; border-radius: 5px; font-weight: bold; text-decoration: none; margin-right: 15px; font-size: 14px; }
-        .hero { text-align: center; padding: 100px 20px; max-width: 800px; margin: 0 auto; }
+        .hero { text-align: center; padding: 100px 20px; max-width: 800px; margin: 0 auto; position: relative; }
         .hero h1 { font-size: 48px; font-weight: 800; margin-bottom: 20px; line-height: 1.2; }
         .hero h1 span { color: #00d2ff; }
         .hero p { color: #a0aec0; font-size: 18px; margin-bottom: 40px; line-height: 1.6; }
         .btn-primary { background: #00d2ff; color: #020813; padding: 15px 30px; border-radius: 5px; font-weight: bold; text-decoration: none; display: inline-block; margin: 10px; }
         .btn-secondary { background: rgba(255,255,255,0.05); color: #fff; padding: 15px 30px; border-radius: 5px; font-weight: bold; text-decoration: none; display: inline-block; margin: 10px; border: 1px solid rgba(255,255,255,0.1); }
-        .section-title { text-align: center; font-size: 32px; font-weight: bold; margin-bottom: 60px; }
+        .section-title { text-align: center; font-size: 32px; font-weight: bold; margin-bottom: 60px; margin-top: 100px; }
         .section-title span { color: #00d2ff; }
-        .features { max-width: 1200px; margin: 100px auto; padding: 0 20px; }
+        .features { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
-        .card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 40px 30px; border-radius: 10px; text-align: center; }
+        .card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 40px 30px; border-radius: 10px; text-align: center; transition: transform 0.3s; }
+        .card:hover { transform: translateY(-5px); }
         .card h3 { font-size: 20px; margin-bottom: 15px; }
         .card p { color: #a0aec0; font-size: 14px; line-height: 1.6; }
         .highlight { font-size: 48px; font-weight: bold; color: #ff3366; margin-bottom: 10px; }
-        /* Thêm các cấu hình grid từ ảnh của sếp */
-        .industry-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-        .about-pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        
+        /* Security Tech Section styling */
+        .security-tech { background: linear-gradient(180deg, rgba(2,8,19,0) 0%, rgba(0,210,255,0.03) 50%, rgba(2,8,19,0) 100%); padding: 100px 20px; }
+        .security-box { background: rgba(2, 8, 19, 0.6); border: 1px solid rgba(0, 210, 255, 0.15); border-radius: 12px; padding: 40px; margin-bottom: 30px; }
+        .security-box h3 { color: #00d2ff; font-size: 22px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .security-box p { color: #e2e8f0; font-size: 15px; line-height: 1.7; }
+        .security-box ul { margin-top: 15px; margin-left: 20px; color: #a0aec0; }
+        .security-box ul li { margin-bottom: 8px; font-size: 14px; }
+        
+        .industry-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .about-pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Scanner animation mock */
+        .scanner-wrap { width: 200px; height: 200px; margin: 0 auto 40px auto; position: relative; display: flex; align-items: center; justify-content: center; }
+        .scanner-core { font-size: 64px; }
+        .scanner-ring { position: absolute; border: 2px solid rgba(0, 210, 255, 0.2); border-radius: 50%; }
+        .ring-1 { width: 100%; height: 100%; border-top-color: #00d2ff; }
+        .ring-2 { width: 80%; height: 80%; border-bottom-color: #00d2ff; }
+        .ring-3 { width: 60%; height: 60%; border-left-color: #00d2ff; }
+        
+        .pricing-table { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto 100px auto; padding: 0 20px; }
+        .price-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 40px; border-radius: 10px; text-align: left; position: relative; }
+        .price-card.featured { border-color: #00d2ff; background: rgba(0, 210, 255, 0.03); }
+        .price-card h3 { font-size: 24px; margin-bottom: 10px; }
+        .price-card .price { font-size: 36px; font-weight: bold; color: #00d2ff; margin-bottom: 20px; }
+        .price-card ul { list-style: none; margin-bottom: 30px; }
+        .price-card ul li { margin-bottom: 12px; color: #a0aec0; font-size: 14px; }
+        .price-card ul li::before { content: "✓ "; color: #00e676; margin-right: 5px; }
+        
+        .faq-section { max-width: 800px; margin: 0 auto 100px auto; padding: 0 20px; }
+        .faq-item { background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.05); padding: 20px; border-radius: 5px; margin-bottom: 15px; }
+        .faq-item h4 { font-size: 18px; margin-bottom: 10px; color: #00d2ff; }
+        .faq-item p { color: #a0aec0; font-size: 14px; line-height: 1.6; }
     </style>
 </head>
 <body>
@@ -40,6 +70,7 @@
         <div class="nav-logo"><span>S</span>IA</div>
         <div class="nav-links">
             <a href="#about">About</a>
+            <a href="#security">Absolute Security</a>
             <a href="#components">Technology</a>
             <a href="#industries">Use Cases</a>
             <a href="#enterprise">Enterprise</a>
@@ -47,12 +78,18 @@
             <a href="#faq">FAQ</a>
         </div>
         <div style="display:flex; align-items:center;">
-            <a href="/" class="lang-btn" style="display:inline-flex;">Tiếng Việt</a>
+            <a href="/" class="lang-btn" style="display:inline-flex; align-items:center; gap:6px;">🌏 Tiếng Việt</a>
             <a href="#cta" class="nav-cta">Contact Us</a>
         </div>
     </nav>
 
     <section class="hero" id="hero">
+        <div class="scanner-wrap">
+            <div class="scanner-ring ring-1"></div>
+            <div class="scanner-ring ring-2"></div>
+            <div class="scanner-ring ring-3"></div>
+            <div class="scanner-core">👥</div>
+        </div>
         <p style="color: #00d2ff; font-weight: bold; text-transform: uppercase; letter-spacing: 2px;">The New Era of Security</p>
         <h1>No More Passwords.<br>Just Authenticate As Yourself.<br><span>SIA Recognizes You.</span></h1>
         <p>Next-generation biometric identification system, combining 5 unique biological factors to instantly and securely verify identity. Completely decentralized, automated, and absolute.</p>
@@ -74,8 +111,8 @@
                 <p>Verification Speed</p>
             </div>
             <div class="card">
-                <div class="highlight" style="color: #00e6 green;">∞</div>
-                <p>Global Use Cases</p>
+                <div class="highlight" style="color: #00e676;">∞</div>
+                <p>Integration Capacity</p>
             </div>
         </div>
     </section>
@@ -83,25 +120,153 @@
     <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05); max-width: 1200px; margin: 0 auto;">
 
     <section class="features" id="about">
-        <div class="section-title">The World is Paying the Price<br><span>for Weak Passwords</span></div>
+        <div class="section-title">The World is Paying a Heavy Price<br><span>for Weak Passwords</span></div>
         <div class="grid">
             <div class="card">
                 <div class="highlight">81%</div>
-                <h3>Data Breaches Due to Weak Passwords</h3>
-                <p>Most cyberattacks target poor password habits. Humans cannot remember dozens of complex tokens every day.</p>
+                <h3>Data Breaches Due to Passwords</h3>
+                <p>Most cyberattacks target poor password habits. Humans cannot remember dozens of complex tokens every single day.</p>
             </div>
             <div class="card">
                 <div class="highlight">$8T</div>
-                <h3>Global Cybercrime Damage Annually</h3>
-                <p>According to Cybersecurity Ventures, data breaches cause trillions in losses worldwide due to inadequate authentication frameworks.</p>
+                <h3>Global Damage Annually</h3>
+                <p>According to cybersecurity reports, identity theft causes trillions of dollars in losses due to obsolete authentication frameworks.</p>
             </div>
             <div class="card">
                 <div class="highlight">😞</div>
                 <h3>Frustrating User Experience</h3>
-                <p>Forcing users to memorize strings, input complex 2FA tokens, and constantly reset forgotten credentials leads to massive time and operational waste.</p>
+                <p>Forcing users to memorize strings, input complex 2FA tokens, or constantly reset forgotten credentials leads to massive operational waste.</p>
             </div>
         </div>
     </section>
 
-    </body>
+    <section class="security-tech" id="security">
+        <div class="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <div class="section-title">Why SIA <span>Cannot Be Replicated Or Attacked?</span></div>
+            
+            <div class="security-box">
+                <h3>🛡️ 1. Zero Raw Biometric Storage (No Honey Pot for Hackers)</h3>
+                <p>Traditional systems save fingerprint or face images on a centralized server—if the server gets breached, data is gone. SIA is fundamentally different: when scanning your 5 biological factors, the system instantly transforms them into a unique mathematical string (Hash) via a one-way cryptographic algorithm. SIA never holds your real biometrics; it only keeps the "mathematical equation" representing it. Even if an attacker hacks the server, they only get useless code that cannot be reverse-engineered.</p>
+            </div>
+
+            <div class="security-box">
+                <h3>🚫 2. AI-Powered Liveness Detection Technology</h3>
+                <p>Could malicious actors use high-res photos, deepfake videos, or 3D silicon masks to bypass SIA? Totally impossible. The system integrates advanced AI Liveness sensors that continuously monitor real-time vital signs:</p>
+                <ul>
+                    <li>Pupillary constriction response under infrared light.</li>
+                    <li>Subdermal blood flow mapping beneath the palm.</li>
+                    <li>Micro-vibration voice frequencies to block simulated audio synthetics.</li>
+                </ul>
+                <p>Without the concrete parameters of an active living body, the system denies access immediately.</p>
+            </div>
+
+            <div class="security-box">
+                <h3>⚙️ 3. Zero-Knowledge Proofs (ZKP) Architecture</h3>
+                <p>When you log into any third-party platform integrated with SIA, the system verifies and confirms: "Yes, this is the legitimate account owner" <strong>without revealing any of your underlying personal data</strong> to that application or website. This eliminates any risks of data interception (Man-in-the-middle attacks) or cross-leaks if a partner application gets breached.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="components">
+        <div class="section-title">5 Biometric Pillars<br><span>SIA protects you comprehensively</span></div>
+        <div class="about-pillars">
+            <div class="card">
+                <h3 style="color: #00d2ff;">👁️ Retina Scanner</h3>
+                <p>Analyzes the ultra-precise blood vessel structure of the eye, completely unforgeable by images.</p>
+            </div>
+            <div class="card">
+                <h3 style="color: #00d2ff;">✋ Palm Recognition</h3>
+                <p>Identifies sub-surface vein patterns and major palm lines using infrared technology.</p>
+            </div>
+            <div class="card">
+                <h3 style="color: #00d2ff;">🎙️ Voiceprint Wave</h3>
+                <p>Analyzes unique voice frequencies and acoustic tones, safeguarding against AI deepfakes.</p>
+            </div>
+            <div class="card">
+                <h3 style="color: #00d2ff;">🧬 DNA Biometrics</h3>
+                <p>Integrates advanced biological inspection node gateways for top-secret secure zones.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="industries">
+        <div class="section-title">Solutions for Every Industry<br><span>Infinite scalability</span></div>
+        <div class="industry-grid">
+            <div class="card">
+                <h3>🏦 Banking & Finance</h3>
+                <p>Authenticate million-dollar transactions without OTP codes or physical signatures.</p>
+            </div>
+            <div class="card">
+                <h3>🏥 Digital Healthcare</h3>
+                <p>Instantly retrieve accurate medical profiles the moment a patient steps through the door.</p>
+            </div>
+            <div class="card">
+                <h3>🏢 E-Government</h3>
+                <p>Provide fully secure public service access portals for every single citizen.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="enterprise">
+        <div class="section-title">Enterprise Pricing Plans<br><span>Optimize your system infrastructure security</span></div>
+        <div class="pricing-table">
+            <div class="price-card">
+                <h3>Startup</h3>
+                <div class="price">$49<span>/month</span></div>
+                <ul>
+                    <li>Up to 50 active users</li>
+                    <li>3-factor core biometric authentication</li>
+                    <li>24/7 Email support</li>
+                </ul>
+                <a href="#cta" class="btn-secondary" style="display:block; text-align:center; margin:0;">Register Now</a>
+            </div>
+            <div class="price-card featured">
+                <h3>Enterprise</h3>
+                <div class="price">$199<span>/month</span></div>
+                <ul>
+                    <li>Unlimited internal users</li>
+                    <li>Full 5-factor biometric suite</li>
+                    <li>Custom API infrastructure integration</li>
+                    <li>On-site engineer technical support</li>
+                </ul>
+                <a href="#cta" class="btn-primary" style="display:block; text-align:center; margin:0;">Contact Sales</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="individual">
+        <div class="section-title">Personal Solution<br><span>Protecting individual privacy rights</span></div>
+        <div class="pricing-table" style="justify-content: center; grid-template-columns: repeat(auto-fit, minmax(300px, 400px));">
+            <div class="price-card">
+                <h3>SIA One</h3>
+                <div class="price">Free</div>
+                <ul>
+                    <li>Secure 1 personal device</li>
+                    <li>Face & Fingerprint scanner combo</li>
+                    <li>Encrypted secure local storage</li>
+                </ul>
+                <a href="#cta" class="btn-secondary" style="display:block; text-align:center; margin:0;">Get Started Free</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section" id="faq">
+        <div class="section-title">Frequently Asked Questions<br><span>SIA knowledge base</span></div>
+        <div class="faq-item">
+            <h4>Is my biometric data stored on your servers?</h4>
+            <p>No. SIA uses decentralized cryptographic architectures. Your data is hashed into standalone mathematical equations and stays strictly on your local device or secure blockchain framework; no one can access it, including us.</p>
+        </div>
+        <div class="faq-item">
+            <h4>What happens if I injure my hand or my voice changes?</h4>
+            <p>SIA relies on a cross-verification engine utilizing 5 distinct biological factors. If one factor fails, the intelligent AI engine re-calculates the relative weights of the remaining factors to identify you flawlessly.</p>
+        </div>
+    </section>
+
+    <section id="cta" style="text-align: center; padding: 100px 20px; background: rgba(0, 210, 255, 0.02);">
+        <h2 style="font-size: 32px; margin-bottom: 20px;">Ready to Step Into the Passwordless Future?</h2>
+        <p style="color: #a0aec0; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">Leave us a message or reach out directly to SIA engineers to receive the most efficient security migration roadmap for your network.</p>
+        <a href="mailto:support@sia.system" class="btn-primary">Email Us Directly</a>
+    </section>
+
+</body>
 </html>
