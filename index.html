@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIA - Hệ Thống Xác Thực Tự Động</title>
     <style>
-        /* Giữ nguyên toàn bộ CSS giao diện tối tân của sếp */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: #020813; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; overflow-x: hidden; }
         nav { display: flex; justify-content: space-between; align-items: center; padding: 20px; max-width: 1200px; margin: 0 auto; }
@@ -13,24 +12,56 @@
         .nav-logo span { color: #00d2ff; }
         .nav-links a { color: #a0aec0; text-decoration: none; margin-left: 20px; font-size: 14px; transition: color 0.3s; }
         .nav-links a:hover { color: #fff; }
-        .nav-cta { background: #00d2ff; color: #020813 !important; padding: 10px 20px; border-radius: 5px; font-weight: bold; }
+        .nav-cta { background: #00d2ff; color: #020813 !important; padding: 10px 20px; border-radius: 5px; font-weight: bold; text-decoration: none; }
         .lang-btn { background: transparent; color: #00d2ff; border: 1px solid #00d2ff; padding: 8px 16px; border-radius: 5px; font-weight: bold; text-decoration: none; margin-right: 15px; font-size: 14px; }
-        .hero { text-align: center; padding: 100px 20px; max-width: 800px; margin: 0 auto; }
+        .hero { text-align: center; padding: 100px 20px; max-width: 800px; margin: 0 auto; position: relative; }
         .hero h1 { font-size: 48px; font-weight: 800; margin-bottom: 20px; line-height: 1.2; }
         .hero h1 span { color: #00d2ff; }
         .hero p { color: #a0aec0; font-size: 18px; margin-bottom: 40px; line-height: 1.6; }
         .btn-primary { background: #00d2ff; color: #020813; padding: 15px 30px; border-radius: 5px; font-weight: bold; text-decoration: none; display: inline-block; margin: 10px; }
         .btn-secondary { background: rgba(255,255,255,0.05); color: #fff; padding: 15px 30px; border-radius: 5px; font-weight: bold; text-decoration: none; display: inline-block; margin: 10px; border: 1px solid rgba(255,255,255,0.1); }
-        .section-title { text-align: center; font-size: 32px; font-weight: bold; margin-bottom: 60px; }
+        .section-title { text-align: center; font-size: 32px; font-weight: bold; margin-bottom: 60px; margin-top: 100px; }
         .section-title span { color: #00d2ff; }
-        .features { max-width: 1200px; margin: 100px auto; padding: 0 20px; }
+        .features { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
-        .card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 40px 30px; border-radius: 10px; text-align: center; }
+        .card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 40px 30px; border-radius: 10px; text-align: center; transition: transform 0.3s; }
+        .card:hover { transform: translateY(-5px); }
         .card h3 { font-size: 20px; margin-bottom: 15px; }
         .card p { color: #a0aec0; font-size: 14px; line-height: 1.6; }
         .highlight { font-size: 48px; font-weight: bold; color: #ff3366; margin-bottom: 10px; }
-        .industry-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-        .about-pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        
+        /* Cấu hình riêng cho Section Bảo mật tối mật */
+        .security-tech { background: linear-gradient(180deg, rgba(2,8,19,0) 0%, rgba(0,210,255,0.03) 50%, rgba(2,8,19,0) 100%); padding: 100px 20px; }
+        .security-box { background: rgba(2, 8, 19, 0.6); border: 1px solid rgba(0, 210, 255, 0.15); border-radius: 12px; padding: 40px; margin-bottom: 30px; }
+        .security-box h3 { color: #00d2ff; font-size: 22px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .security-box p { color: #e2e8f0; font-size: 15px; line-height: 1.7; }
+        .security-box ul { margin-top: 15px; margin-left: 20px; color: #a0aec0; }
+        .security-box ul li { margin-bottom: 8px; font-size: 14px; }
+        
+        .industry-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .about-pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Scanner animation mock */
+        .scanner-wrap { width: 200px; height: 200px; margin: 0 auto 40px auto; position: relative; display: flex; align-items: center; justify-content: center; }
+        .scanner-core { font-size: 64px; }
+        .scanner-ring { position: absolute; border: 2px solid rgba(0, 210, 255, 0.2); border-radius: 50%; }
+        .ring-1 { width: 100%; height: 100%; border-top-color: #00d2ff; }
+        .ring-2 { width: 80%; height: 80%; border-bottom-color: #00d2ff; }
+        .ring-3 { width: 60%; height: 60%; border-left-color: #00d2ff; }
+        
+        .pricing-table { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto 100px auto; padding: 0 20px; }
+        .price-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 40px; border-radius: 10px; text-align: left; position: relative; }
+        .price-card.featured { border-color: #00d2ff; background: rgba(0, 210, 255, 0.03); }
+        .price-card h3 { font-size: 24px; margin-bottom: 10px; }
+        .price-card .price { font-size: 36px; font-weight: bold; color: #00d2ff; margin-bottom: 20px; }
+        .price-card ul { list-style: none; margin-bottom: 30px; }
+        .price-card ul li { margin-bottom: 12px; color: #a0aec0; font-size: 14px; }
+        .price-card ul li::before { content: "✓ "; color: #00e676; margin-right: 5px; }
+        
+        .faq-section { max-width: 800px; margin: 0 auto 100px auto; padding: 0 20px; }
+        .faq-item { background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.05); padding: 20px; border-radius: 5px; margin-bottom: 15px; }
+        .faq-item h4 { font-size: 18px; margin-bottom: 10px; color: #00d2ff; }
+        .faq-item p { color: #a0aec0; font-size: 14px; line-height: 1.6; }
     </style>
 </head>
 <body>
@@ -39,6 +70,7 @@
         <div class="nav-logo"><span>S</span>IA</div>
         <div class="nav-links">
             <a href="#about">Về chúng tôi</a>
+            <a href="#security">Bảo mật tuyệt đối</a>
             <a href="#components">Công nghệ</a>
             <a href="#industries">Ứng dụng</a>
             <a href="#enterprise">Doanh nghiệp</a>
@@ -46,13 +78,18 @@
             <a href="#faq">FAQ</a>
         </div>
         <div style="display:flex; align-items:center;">
-            <!-- ĐÃ SỬA: Chuyển link từ en.html thành /en chuẩn theo router backend Go -->
             <a href="/en" class="lang-btn" style="display:inline-flex; align-items:center; gap:6px;">🌏 English</a>
             <a href="#cta" class="nav-cta">Liên Hệ Ngay</a>
         </div>
     </nav>
 
     <section class="hero" id="hero">
+        <div class="scanner-wrap">
+            <div class="scanner-ring ring-1"></div>
+            <div class="scanner-ring ring-2"></div>
+            <div class="scanner-ring ring-3"></div>
+            <div class="scanner-core">👥</div>
+        </div>
         <p style="color: #00d2ff; font-weight: bold; text-transform: uppercase; letter-spacing: 2px;">Thế hệ mới của bảo mật</p>
         <h1>Không còn mật khẩu.<br>Chỉ cần là chính bạn.<br><span>SIA Nhận Diện Bạn.</span></h1>
         <p>Hệ thống định danh sinh trắc học thế hệ mới, kết hợp 5 yếu tố sinh học đặc trưng để xác thực danh tính ngay lập tức. Hoàn toàn phi tập trung, tự động và bảo mật tuyệt đối.</p>
@@ -101,6 +138,134 @@
                 <p>Việc ép người dùng nhớ chuỗi ký tự, nhập mã 2FA phức tạp hay liên tục phải khôi phục mật khẩu đã quên gây mất thời gian và giảm hiệu suất vận hành.</p>
             </div>
         </div>
+    </section>
+
+    <section class="security-tech" id="security">
+        <div class="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <div class="section-title">Tại Sao SIA <span>Không Thể Bị Sao Chép Hoặc Tấn Công?</span></div>
+            
+            <div class="security-box">
+                <h3>🛡️ 1. Không lưu trữ sinh trắc học gốc (Không có mục tiêu để hack)</h3>
+                <p>Các hệ thống thông thường lưu hình ảnh vân tay hoặc khuôn mặt trên Server, nếu Server bị hack, dữ liệu sẽ mất. SIA thì khác: khi quét 5 yếu tố sinh học của bạn, hệ thống lập tức chuyển hóa chúng thành một chuỗi mã toán học độc nhất (Hash) thông qua thuật toán mã hóa một chiều. SIA không giữ vân tay của bạn, SIA chỉ giữ "phương trình toán học" của nó. Kẻ tấn công có hack được Server cũng chỉ thu về những ký tự vô nghĩa, không cách nào dịch ngược lại thành mô hình sinh học gốc.</p>
+            </div>
+
+            <div class="security-box">
+                <h3>🚫 2. Công nghệ Chống Sao Chép Liveness Detection bằng AI</h3>
+                <p>Kẻ xấu dùng ảnh chụp độ phân giải cao, video deepfake, hay thậm chí là mặt nạ 3D silicon để vượt qua hệ thống? Hoàn toàn bất khả thi với SIA. Hệ thống tích hợp cảm biến AI Liveness liên tục đo đạc các chỉ số sống trong thời gian thực:</p>
+                <ul>
+                    <li>Phản xạ co thắt của đồng tử dưới ánh sáng hồng ngoại.</li>
+                    <li>Sự lưu thông của mạch máu ngầm dưới da lòng bàn tay.</li>
+                    <li>Tần số rung vi mô của dây thanh quản chống âm thanh giả lập.</li>
+                </ul>
+                <p>Nếu không có dấu hiệu của một cơ thể sống thực sự đang vận hành, hệ thống sẽ tự động khóa truy cập ngay lập tức.</p>
+            </div>
+
+            <div class="security-box">
+                <h3>⚙️ 3. Cơ chế Xác Thực Zero-Knowledge Proofs (Bằng chứng không tri thức)</h3>
+                <p>Khi bạn đăng nhập vào bất kỳ nền tảng nào tích hợp SIA, hệ thống kiểm tra và xác nhận: "Đúng, đây là chủ tài khoản" mà <strong>không hề tiết lộ bất kỳ thông tin cá nhân nào</strong> của bạn cho ứng dụng hay trang web đó. Cơ chế này loại bỏ hoàn toàn nguy cơ bị nghe lén dữ liệu đường truyền (Man-in-the-middle attack) hoặc rò rỉ chéo khi một bên thứ ba bị tấn công.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="components">
+        <div class="section-title">5 Trụ Cột Sinh Trắc Học<br><span>SIA bảo vệ bạn toàn diện</span></div>
+        <div class="about-pillars">
+            <div class="card">
+                <h3 style="color: #00d2ff;">👁️ Quét Võng Mạc</h3>
+                <p>Phân tích cấu trúc mạch máu mắt siêu chính xác, không thể làm giả bằng hình ảnh.</p>
+            </div>
+            <div class="card">
+                <h3 style="color: #00d2ff;">✋ Lòng Bàn Tay</h3>
+                <p>Nhận diện sơ đồ vân tay và các đường chỉ tay lớn bằng tia hồng ngoại.</p>
+            </div>
+            <div class="card">
+                <h3 style="color: #00d2ff;">🎙️ Sóng Giọng Nói</h3>
+                <p>Phân tích tần số và âm sắc đặc trưng, chống deepfake voice bằng AI.</p>
+            </div>
+            <div class="card">
+                <h3 style="color: #00d2ff;">🧬 Trắc Lượng DNA</h3>
+                <p>Tích hợp các cổng kiểm tra sinh học tiên tiến cho các phân khu tối mật.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="industries">
+        <div class="section-title">Giải Pháp Cho Mọi Ngành Nghề<br><span>Mở rộng không giới hạn</span></div>
+        <div class="industry-grid">
+            <div class="card">
+                <h3>🏦 Tài Chính - Ngân Hàng</h3>
+                <p>Xác thực giao dịch triệu đô không cần mã OTP hay ký tên.</p>
+            </div>
+            <div class="card">
+                <h3>🏥 Y Tế - Bệnh Viện</h3>
+                <p>Truy xuất bệnh án chính xác ngay khi bệnh nhân vừa bước vào cửa.</p>
+            </div>
+            <div class="card">
+                <h3>🏢 Chính Phủ Số</h3>
+                <p>Cung cấp cổng dịch vụ công an toàn tuyệt đối cho mọi công dân.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="enterprise">
+        <div class="section-title">Bảng Giá Cho Doanh Nghiệp<br><span>Tối ưu hóa bảo mật hệ thống</span></div>
+        <div class="pricing-table">
+            <div class="price-card">
+                <h3>Khởi Nghiệp (Startup)</h3>
+                <div class="price">$49<span>/tháng</span></div>
+                <ul>
+                    <li>Tối đa 50 nhân sự</li>
+                    <li>Xác thực 3 yếu tố cơ bản</li>
+                    <li>Hỗ trợ qua Email 24/7</li>
+                </ul>
+                <a href="#cta" class="btn-secondary" style="display:block; text-align:center; margin:0;">Đăng Ký Ngay</a>
+            </div>
+            <div class="price-card featured">
+                <h3>Tập Đoàn (Enterprise)</h3>
+                <div class="price">$199<span>/tháng</span></div>
+                <ul>
+                    <li>Không giới hạn nhân sự</li>
+                    <li>Trọn gói 5 yếu tố sinh trắc học</li>
+                    <li>API tích hợp hệ thống riêng</li>
+                    <li>Hỗ trợ kỹ thuật On-site</li>
+                </ul>
+                <a href="#cta" class="btn-primary" style="display:block; text-align:center; margin:0;">Liên Hệ Kỹ Thuật</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="individual">
+        <div class="section-title">Giải Pháp Cho Cá Nhân<br><span>Bảo vệ quyền riêng tư cá nhân</span></div>
+        <div class="pricing-table" style="justify-content: center; grid-template-columns: repeat(auto-fit, minmax(300px, 400px));">
+            <div class="price-card">
+                <h3>Cá Nhân (SIA One)</h3>
+                <div class="price">Miễn Phí</div>
+                <ul>
+                    <li>Bảo mật 1 thiết bị cá nhân</li>
+                    <li>Quét vân tay & khuôn mặt</li>
+                    <li>Lưu trữ cục bộ an toàn</li>
+                </ul>
+                <a href="#cta" class="btn-secondary" style="display:block; text-align:center; margin:0;">Trải Nghiệm Miễn Phí</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section" id="faq">
+        <div class="section-title">Câu Hỏi Thường Gặp<br><span>Giải đáp thắc mắc về SIA</span></div>
+        <div class="faq-item">
+            <h4>Dữ liệu sinh trắc học của tôi có bị lưu trên máy chủ không?</h4>
+            <p>Không. SIA sử dụng công nghệ mã hóa phi tập trung. Dữ liệu của bạn được băm (hash) thành các chuỗi mã toán học độc lập và chỉ lưu trực tiếp trên thiết bị của bạn hoặc chuỗi khối bảo mật, không ai có quyền truy cập kể cả chúng tôi.</p>
+        </div>
+        <div class="faq-item">
+            <h4>Nếu tôi bị thương ở tay hoặc thay đổi giọng nói thì sao?</h4>
+            <p>Hệ thống của SIA sử dụng cơ chế xác thực chéo kết hợp giữa 5 yếu tố khác nhau. Nếu một yếu tố gặp trục trặc, thuật toán AI thông minh sẽ tự động tính toán trọng số của các yếu tố còn lại để định danh bạn một cách chính xác.</p>
+        </div>
+    </section>
+
+    <section id="cta" style="text-align: center; padding: 100px 20px; background: rgba(0, 210, 255, 0.02);">
+        <h2 style="font-size: 32px; margin-bottom: 20px;">Sẵn Sàng Bước Vào Kỷ Nguyên Không Mật Khẩu?</h2>
+        <p style="color: #a0aec0; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">Để lại thông tin hoặc liên hệ trực tiếp với đội ngũ kỹ sư của SIA để nhận lộ trình tích hợp bảo mật an toàn nhất cho hệ thống của bạn.</p>
+        <a href="mailto:support@sia.system" class="btn-primary">Gửi Mail Cho Chúng Tôi</a>
     </section>
 
 </body>
