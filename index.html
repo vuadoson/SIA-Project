@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIA Project - Hệ Thống Định Danh Tự Động</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #2a2a2a;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            width: 350px;
+        }
+        .logo-container {
+            margin-bottom: 20px;
+        }
+        .logo-box {
+            width: 80px;
+            height: 80px;
+            background-color: #000000;
+            border: 2px solid #5eead4;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+            color: #5eead4;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        h2 {
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+        p {
+            color: #aaaaaa;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #cccccc;
+        }
+        input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #444444;
+            border-radius: 4px;
+            background-color: #333333;
+            color: #ffffff;
+            font-size: 14px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        input[type="email"]:focus {
+            border-color: #28a745;
+        }
+        .btn-pay {
+            background-color: #28a745;
+            color: #ffffff;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .btn-pay:hover {
+            background-color: #218838;
+        }
+        .btn-pay:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo-container">
+        <div class="logo-box">SIA</div>
+    </div>
+    <h2>SIA Project</h2>
+    <p>Hệ thống thanh toán bản quyền tự động</p>
+
+    <!-- Ô nhập Email của khách -->
+    <div class="form-group">
+        <label for="customer-email">Email nhận mã bản quyền:</label>
+        <input type="email" id="customer-email" placeholder="vi_du@gmail.com" required>
+    </div>
+
+    <!-- Nút bấm thanh toán -->
+    <button onclick="handlePayment()" class="btn-pay">
+        BẤM ĐỂ THANH TOÁN QUA QR MB BANK
+    </button>
+</div>
+
+<script>
+async function handlePayment() {
+    const emailInput = document.getElementById('customer-email');
+    const email = emailInput ? emailInput.value.trim() : '';
+    
+    if (!email) {
+        alert('Vui lòng nhập địa chỉ Email của bạn để nhận mã bản quyền!');
+        if(emailInput) emailInput.focus();
+        return;
+    }
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        alert('Định dạng Email không hợp lệ. Vui lòng kiểm tra lại!');
+        if(emailInput) emailInput.focus();
+        return;
+    }
+
+    const btn = document.querySelector('.btn-pay');
+    btn.innerText = 'ĐANG KHỞI TẠO ĐƠN HÀNG...';
+    btn.disabled = true;
+
+    try {
+        const response = await fetch('/create-payment-link', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify({ 
+                email: email,
+                amount: 50000 
+            })
+        });
+
+        const data = await response.json();
+        
+        if (data.checkoutUrl) {
+            window.location.href = data.checkoutUrl;
+        } else {
+            alert('Có lỗi xảy ra: ' + (data.error || 'Không thể khởi tạo cổng thanh toán.'));
+            resetButton();
+        }
+    } catch (error) {
+        console.error(error);
+        alert('Không thể kết nối đến máy chủ thanh toán.');
+        resetButton();
+    }
+
+    function resetButton() {
+        btn.innerText = 'BẤM ĐỂ THANH TOÁN QUA QR MB BANK';
+        btn.disabled = false;
+    }
+}
+</script>
+
+</body>
+</html>
