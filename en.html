@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SIA - Security ID Automatic System</title>
+    <title>SIA - Automatic Authentication Identity System</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: #020813; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; overflow-x: hidden; }
@@ -23,9 +23,9 @@
         .hero { text-align: center; padding: 60px 20px; max-width: 800px; margin: 0 auto; position: relative; }
         .hero h1 { font-size: 40px; font-weight: 800; margin-bottom: 20px; line-height: 1.2; }
         .hero h1 span { color: #00d2ff; }
-        .hero p { color: #a0aec0; font-size: 18px; margin-bottom: 40px; line-height: 1.6; }
-        .btn-primary { background: #00d2ff; color: #020813; padding: 14px 28px; border-radius: 5px; font-weight: bold; text-decoration: none; display: inline-block; margin: 8px; font-size: 15px; }
-        .btn-secondary { background: rgba(255,255,255,0.05); color: #fff; padding: 14px 28px; border-radius: 5px; font-weight: bold; text-decoration: none; display: inline-block; margin: 8px; border: 1px solid rgba(255,255,255,0.1); font-size: 15px; }
+        .hero p { color: #a0aec0; font-size: 16px; margin-bottom: 40px; line-height: 1.6; }
+        .btn-primary { background: #00d2ff; color: #020813; padding: 14px 28px; border-radius: 5px; font-weight: bold; text-decoration: none; display: inline-block; margin: 8px; font-size: 15px; cursor: pointer; border: none; }
+        .btn-secondary { background: rgba(255,255,255,0.05); color: #fff; padding: 14px 28px; border-radius: 5px; font-weight: bold; text-decoration: none; display: inline-block; margin: 8px; border: 1px solid rgba(255,255,255,0.1); font-size: 15px; cursor: pointer; }
         
         /* GRID SYSTEM */
         .section-title { text-align: center; font-size: 28px; font-weight: bold; margin: 60px 0 40px 0; padding: 0 20px; line-height: 1.3; }
@@ -37,7 +37,6 @@
         .card:hover { transform: translateY(-5px); }
         .card h3 { font-size: 18px; margin-bottom: 12px; }
         .card p { color: #a0aec0; font-size: 14px; line-height: 1.6; }
-        .highlight { font-size: 40px; font-weight: bold; color: #ff3366; margin-bottom: 10px; }
         
         /* SECURITY TECH */
         .security-tech { background: linear-gradient(180deg, rgba(2,8,19,0) 0%, rgba(0,210,255,0.03) 50%, rgba(2,8,19,0) 100%); padding: 60px 20px; }
@@ -45,19 +44,9 @@
         .security-box { background: rgba(2, 8, 19, 0.6); border: 1px solid rgba(0, 210, 255, 0.15); border-radius: 12px; padding: 30px; margin-bottom: 25px; text-align: left; }
         .security-box h3 { color: #00d2ff; font-size: 20px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; line-height: 1.3; }
         .security-box p { color: #e2e8f0; font-size: 14px; line-height: 1.6; }
-        .security-box ul { margin-top: 12px; margin-left: 20px; color: #a0aec0; }
-        .security-box ul li { margin-bottom: 6px; font-size: 13.5px; }
         
-        /* SCANNER RADAR ANIMATION */
-        .scanner-wrap { width: 180px; height: 180px; margin: 0 auto 30px auto; position: relative; display: flex; align-items: center; justify-content: center; }
-        .scanner-core { font-size: 40px; position: absolute; z-index: 2; }
-        .scanner-ring { position: absolute; border: 2px solid rgba(0, 210, 255, 0.2); border-radius: 50%; top: 0; left: 0; right: 0; bottom: 0; margin: auto; }
-        .ring-1 { width: 100%; height: 100%; border-top-color: #00d2ff; }
-        .ring-2 { width: 80%; height: 80%; border-bottom-color: #00d2ff; }
-        .ring-3 { width: 60%; height: 60%; border-left-color: #00d2ff; }
-        
-        /* PRICING */
-        .pricing-table { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 1000px; margin: 0 auto 60px auto; padding: 0 20px; }
+        /* PRICING & PAYMENT MODAL */
+        .pricing-table { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 1100px; margin: 0 auto 60px auto; padding: 0 20px; }
         .price-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 35px 25px; border-radius: 10px; text-align: left; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
         .price-card.featured { border-color: #00d2ff; background: rgba(0, 210, 255, 0.03); }
         .price-card h3 { font-size: 22px; margin-bottom: 10px; }
@@ -65,245 +54,201 @@
         .price-card ul { list-style: none; margin-bottom: 30px; }
         .price-card ul li { margin-bottom: 12px; color: #a0aec0; font-size: 14px; }
         .price-card ul li::before { content: "✓ "; color: #00e676; margin-right: 5px; }
-        
-        /* FAQ */
-        .faq-section { max-width: 800px; margin: 0 auto 60px auto; padding: 0 20px; }
-        .faq-item { background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.05); padding: 20px; border-radius: 5px; margin-bottom: 15px; text-align: left; }
-        .faq-item h4 { font-size: 16px; margin-bottom: 8px; color: #00d2ff; line-height: 1.4; }
-        .faq-item p { color: #a0aec0; font-size: 14px; line-height: 1.6; }
 
-        /* RESPONSIVE MEDIA QUERIES */
-        @media (max-width: 1024px) {
-            .hero h1 { font-size: 36px; }
-            .section-title { font-size: 26px; }
-        }
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            nav { padding: 15px 15px; gap: 10px; }
-            .nav-logo { font-size: 22px; }
-            .lang-btn, .nav-cta { padding: 8px 12px; font-size: 13px; }
-            .hero { padding: 30px 15px; }
-            .hero h1 { font-size: 30px; }
-            .hero p { font-size: 15px; }
-            .security-box { padding: 20px; }
-            .security-box h3 { font-size: 18px; }
-        }
-        @media (max-width: 480px) {
-            nav { padding: 12px 10px; }
-            .nav-logo { font-size: 20px; }
-            .lang-btn { padding: 6px 10px; font-size: 12px; }
-            .nav-cta { padding: 6px 10px; font-size: 12px; }
-            .scanner-wrap { width: 140px; height: 140px; margin-bottom: 20px; }
-            .scanner-core { font-size: 32px; }
-            .hero h1 { font-size: 24px; }
-            .btn-primary, .btn-secondary { display: block; margin: 10px 0; width: 100%; text-align: center; padding: 12px 20px; }
-            .price-card { padding: 25px 20px; }
-        }
+        .payment-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 8, 19, 0.95); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
+        .payment-box { background: #0b1528; border: 2px solid #00d2ff; border-radius: 15px; max-width: 500px; width: 100%; padding: 30px; text-align: center; box-shadow: 0 0 30px rgba(0, 210, 255, 0.2); }
+        .qr-code { width: 220px; height: 220px; background: #fff; margin: 20px auto; padding: 10px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+        .payment-success { display: none; color: #00e676; margin-top: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
 
+    <!-- SKELETON TREE STRUCTURE -->
     <nav>
         <div class="nav-logo"><span>S</span>IA</div>
         <div class="nav-links">
-            <a href="#about">About</a>
-            <a href="#security">Absolute Security</a>
-            <a href="#components">Technology</a>
-            <a href="#industries">Use Cases</a>
-            <a href="#enterprise">Enterprise</a>
-            <a href="#individual">Personal</a>
-            <a href="#faq">FAQ</a>
+            <a href="#about">Password Crisis</a>
+            <a href="#quantum">Quantum Threat</a>
+            <a href="#security">SIA Shield</a>
+            <a href="#components">Skeletal Framework</a>
+            <a href="#pricing">Licensing Gateway</a>
+            <a href="#cta">Contact</a>
         </div>
         <div class="nav-actions">
             <a href="/" class="lang-btn">🌏 Tiếng Việt</a>
-            <a href="#cta" class="nav-cta">Contact</a>
+            <a href="#pricing" class="nav-cta">Buy Now</a>
         </div>
     </nav>
 
+    <!-- HERO HEADER -->
     <section class="hero" id="hero">
-        <div class="scanner-wrap">
-            <div class="scanner-ring ring-1"></div>
-            <div class="scanner-ring ring-2"></div>
-            <div class="scanner-ring ring-3"></div>
-            <div class="scanner-core">👥</div>
-        </div>
-        <p style="color: #00d2ff; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; font-size: 12px; margin-bottom: 10px;">The New Era of Security</p>
-        <h1>No More Passwords.<br>Just Authenticate As Yourself.<br><span>SIA Recognizes You.</span></h1>
-        <p>Next-generation biometric identification system, combining 5 unique biological factors to instantly and securely verify identity. Completely decentralized, automated, and absolute.</p>
+        <p style="color: #00d2ff; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; font-size: 12px; margin-bottom: 10px;">POST-QUANTUM CRYPTOGRAPHIC ARCHITECTURE</p>
+        <h1>Terminate The Password Era.<br><span>Instant Biometric Gateways by SIA.</span></h1>
+        <p>A multi-factor verification system mapping 3D skeletal and vascular frameworks to nullify brute-force quantum core threats.</p>
         <div>
-            <a href="#enterprise" class="btn-primary">For Enterprise</a>
-            <a href="#individual" class="btn-secondary">For Individual</a>
-        </div>
-        <div class="grid" style="margin-top: 50px;">
-            <div class="card">
-                <div class="highlight" style="color: #00d2ff;">5</div>
-                <p>Biometric Factors</p>
-            </div>
-            <div class="card">
-                <div class="highlight" style="color: #00e676;">99.9%</div>
-                <p>Accuracy Rate</p>
-            </div>
-            <div class="card">
-                <div class="highlight" style="color: #00d2ff;">&lt;0.3s</div>
-                <p>Verification Speed</p>
-            </div>
-            <div class="card">
-                <div class="highlight" style="color: #00e676;">∞</div>
-                <p>Integration Capacity</p>
-            </div>
+            <a href="#pricing" class="btn-primary">Acquire Licenses</a>
+            <a href="#quantum" class="btn-secondary">Quantum Threats Analysis</a>
         </div>
     </section>
 
-    <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05); max-width: 1200px; margin: 0 auto;">
-
-    <section class="features" id="about">
-        <div class="section-title">The World is Paying a Heavy Price<br><span>for Weak Passwords</span></div>
-        <div class="grid">
-            <div class="card">
-                <div class="highlight">81%</div>
-                <h3>Data Breaches Due to Passwords</h3>
-                <p>Most cyberattacks target poor password habits. Humans cannot remember dozens of complex tokens every single day.</p>
-            </div>
-            <div class="card">
-                <div class="highlight">$8T</div>
-                <h3>Global Damage Annually</h3>
-                <p>According to cybersecurity reports, identity theft causes trillions of dollars in losses due to obsolete authentication frameworks.</p>
-            </div>
-            <div class="card">
-                <div class="highlight">😞</div>
-                <h3>Frustrating User Experience</h3>
-                <p>Forcing users to memorize strings, input complex 2FA tokens, or constantly reset forgotten credentials leads to massive operational waste.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="security-tech" id="security">
+    <!-- QUANTUM DESTRUCTION & SIA DEFENSE -->
+    <section class="security-tech" id="quantum" style="background: rgba(255, 0, 85, 0.02); border-top: 1px solid rgba(255, 0, 85, 0.1);">
         <div class="security-container">
-            <div class="section-title" style="margin-top: 0;">Why SIA <span>Cannot Be Replicated Or Attacked?</span></div>
+            <div class="section-title">The Quantum Computing Threat:<br><span style="color: #ff3366;">The Absolute Destruction of Legacy Encryption</span></div>
             
-            <div class="security-box">
-                <h3>🛡️ 1. Zero Raw Biometric Storage (No Honey Pot)</h3>
-                <p>Traditional systems save fingerprint or face images on a centralized server—if the server gets breached, data is gone. SIA is fundamentally different: when scanning your 5 biological factors, the system instantly transforms them into a unique mathematical string (Hash) via a one-way cryptographic algorithm.</p>
+            <div class="security-box" style="border-color: rgba(255, 0, 85, 0.3);">
+                <h3 style="color: #ff3366;">💥 Quantum Overlord: Breaking RSA & AES Frameworks Instantly</h3>
+                <p>Once commercialized quantum computational arrays emerge, Shor's algorithm will crack standard public/private keys within milliseconds. Traditional databases, wallets, and access strings become totally transparent to adversaries, prompting immediate international zero-trust protocols.</p>
             </div>
 
-            <div class="security-box">
-                <h3>🚫 2. AI-Powered Liveness Detection Technology</h3>
-                <p>Could malicious actors use high-res photos, deepfake videos, or 3D silicon masks to bypass SIA? Totally impossible. The system integrates advanced AI Liveness sensors that continuously monitor real-time vital signs:</p>
-                <ul>
-                    <li>Pupillary constriction response under infrared light.</li>
-                    <li>Subdermal blood flow mapping beneath the palm.</li>
-                    <li>Micro-vibration voice frequencies to block simulated audio synthetics.</li>
-                </ul>
-            </div>
-
-            <div class="security-box">
-                <h3>⚙️ 3. Zero-Knowledge Proofs (ZKP) Architecture</h3>
-                <p>When you log into any third-party platform integrated with SIA, the system verifies and confirms: "Yes, this is the legitimate account owner" without revealing any of your underlying personal data to that application or website.</p>
+            <div class="security-box" style="border-color: #00d2ff;">
+                <h3>🛡️ SIA Post-Quantum Defense Infrastructure</h3>
+                <p>SIA integrates advanced Lattice-based Post-Quantum Cryptography (PQC) coupled with decentralized irreversible biometric tokenization. Quantum computers have no database matrices to leak or compromise since zero absolute access strings are held online.</p>
             </div>
         </div>
     </section>
 
+    <!-- SKELETAL STRUCTURE COMPONENTS -->
     <section class="features" id="components">
-        <div class="section-title">5 Biometric Pillars<br><span>SIA protects you comprehensively</span></div>
+        <div class="section-title">Deep <span>Skeletal & Biological Hardware Verification</span></div>
         <div class="grid">
             <div class="card">
-                <h3 style="color: #00d2ff; margin-bottom: 10px;">👁️ Retina Scanner</h3>
-                <p>Analyzes the ultra-precise blood vessel structure of the eye, completely unforgeable by images.</p>
+                <h3 style="color: #00d2ff; margin-bottom: 10px;">💀 3D Skeletal Structure Metrics</h3>
+                <p>Maps sub-dermal bone density arrangements and facial/skeletal geometry using advanced 3D time-of-flight arrays, blocking all cosmetic and deepfake modifications.</p>
             </div>
             <div class="card">
-                <h3 style="color: #00d2ff; margin-bottom: 10px;">✋ Palm Recognition</h3>
-                <p>Identifies sub-surface vein patterns and major palm lines using infrared technology.</p>
-            </div>
-            <div class="card">
-                <h3 style="color: #00d2ff; margin-bottom: 10px;">🎙️ Voiceprint Wave</h3>
-                <p>Analyzes unique voice frequencies and acoustic tones, safeguarding against AI deepfakes.</p>
-            </div>
-            <div class="card">
-                <h3 style="color: #00d2ff; margin-bottom: 10px;">🧬 DNA Biometrics</h3>
-                <p>Integrates advanced biological inspection node gateways for top-secret secure zones.</p>
+                <h3 style="color: #00d2ff; margin-bottom: 10px;">👁️ Retina & Vascular Mapping</h3>
+                <p>Scans real-time active blood flow tracking parameters beneath the iris and palm structures through high-precision infrared sensors.</p>
             </div>
         </div>
     </section>
 
-    <section class="features" id="industries">
-        <div class="section-title">Solutions for Every Industry<br><span>Infinite scalability</span></div>
-        <div class="grid">
-            <div class="card">
-                <h3 style="margin-bottom: 10px;">🏦 Banking & Finance</h3>
-                <p>Authenticate million-dollar transactions without OTP codes or physical signatures.</p>
-            </div>
-            <div class="card">
-                <h3 style="margin-bottom: 10px;">🏥 Digital Healthcare</h3>
-                <p>Instantly retrieve accurate medical profiles the moment a patient steps through the door.</p>
-            </div>
-            <div class="card">
-                <h3 style="margin-bottom: 10px;">🏢 E-Government</h3>
-                <p>Provide fully secure public service access portals for every single citizen.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="enterprise">
-        <div class="section-title">Enterprise Pricing Plans<br><span>Optimize your system infrastructure security</span></div>
+    <!-- PRICING & TRANSACTION GATEWAY -->
+    <section id="pricing" style="padding: 60px 0;">
+        <div class="section-title">Licensing Modules & <span>Automated Delivery Terminal</span></div>
         <div class="pricing-table">
-            <div class="price-card">
+            
+            <!-- INDIVIDUAL PLAN -->
+            <div class="price-card" style="border-color: rgba(0, 210, 255, 0.4);">
                 <div>
-                    <h3>Startup</h3>
-                    <div class="price">$49<span style="font-size: 14px; color: #a0aec0;">/month</span></div>
+                    <h3>SIA One Pro (Individual)</h3>
+                    <div class="price">20 <span style="font-size: 14px; color: #a0aec0;">USD / Year</span></div>
                     <ul>
-                        <li>Up to 50 active users</li>
-                        <li>3-factor core biometric authentication</li>
-                        <li>24/7 Email support</li>
+                        <li>Secure up to 3 individual endpoints</li>
+                        <li>Full skeletal & vascular biometric layer initialization</li>
+                        <li>Automated license key deployment immediately following checkout</li>
                     </ul>
                 </div>
-                <a href="#cta" class="btn-secondary" style="margin: 0; text-align: center;">Register Now</a>
+                <button class="btn-primary" onclick="openPayment('USD', 20, 'SIA_ONE_PRO')">Buy Individual License</button>
             </div>
+
+            <!-- ENTERPRISE PLAN -->
             <div class="price-card featured">
                 <div>
-                    <h3>Enterprise</h3>
-                    <div class="price">$199<span style="font-size: 14px; color: #a0aec0;">/month</span></div>
+                    <h3>SIA Global (Enterprise)</h3>
+                    <div class="price">199 <span style="font-size: 14px; color: #a0aec0;">USD / Month</span></div>
                     <ul>
-                        <li>Unlimited internal users</li>
-                        <li>Full 5-factor biometric suite</li>
-                        <li>Custom API infrastructure integration</li>
-                        <li>On-site engineer technical support</li>
+                        <li>Unlimited node and gateway deployment</li>
+                        <li>Post-quantum infrastructure protection engine</li>
+                        <li>Comprehensive API/SDK core architectural integration</li>
                     </ul>
                 </div>
-                <a href="#cta" class="btn-primary" style="margin: 0; text-align: center;">Contact Sales</a>
+                <button class="btn-primary" onclick="openPayment('USD', 199, 'SIA_ENTERPRISE')">Buy Enterprise License</button>
             </div>
         </div>
     </section>
 
-    <section id="individual">
-        <div class="section-title">Personal Solution<br><span>Protecting individual privacy rights</span></div>
-        <div style="max-width: 400px; margin: 0 auto; padding: 0 20px;">
-            <div class="price-card">
-                <div>
-                    <h3>SIA One</h3>
-                    <div class="price">Free</div>
-                    <ul>
-                        <li>Secure 1 personal device</li>
-                        <li>Face & Fingerprint scanner combo</li>
-                        <li>Encrypted secure local storage</li>
-                    </ul>
+    <!-- GATEWAY MODAL UI -->
+    <div class="payment-overlay" id="paymentModal">
+        <div class="payment-box">
+            <h3 id="paymentTitle" style="color: #00d2ff; margin-bottom: 10px;">SIA AUTOMATED MERCHANDISE TERMINAL</h3>
+            <p style="font-size: 14px; color: #a0aec0; margin-bottom: 15px;">Provide your Email destination to receive authorization payloads post-transaction:</p>
+            
+            <input type="email" id="clientEmail" placeholder="Enter your email address..." style="width: 100%; padding: 12px; border-radius: 5px; border: 1px solid #00d2ff; background: #020813; color: #fff; margin-bottom: 20px; text-align: center; font-size: 15px;" required>
+            
+            <div id="qrContainer" style="display:none;">
+                <p style="color: #fff; font-size: 14px; font-weight: bold;">Scan the following dynamic transaction index code:</p>
+                <div class="qr-code">
+                    <img id="qrImg" src="" alt="Dynamic QR Payment Terminal" style="width:100%; height:100%; object-fit: contain;">
                 </div>
-                <a href="#cta" class="btn-secondary" style="margin: 0; text-align: center;">Get Started Free</a>
+                <p style="font-size: 13px; color: #00e676; margin-bottom: 5px;">💸 Destination Account: <span id="targetAccount"></span> (MB Bank Destination)</p>
+                <p style="font-size: 13px; color: #ff3366; font-weight: bold;">Exact Transaction Memo Token: <span id="paymentMemo"></span></p>
+                <p style="font-size: 12px; color: #a0aec0; margin-top: 15px; font-style: italic;">⚡ Webhook automated balance tracking refreshes every 2 seconds to release assets instantly.</p>
+            </div>
+
+            <div class="payment-success" id="successMsg">🎉 TRANSACTION CONFIRMED! Your dedicated security framework installation manifest has been routed to your designated email.</div>
+            
+            <div style="margin-top: 25px; display: flex; gap: 10px; justify-content: center;">
+                <button id="btnGenQR" class="btn-primary" style="margin:0; padding: 10px 20px;" onclick="generateQR()">Verify Email & Initialize QR</button>
+                <button class="btn-secondary" style="margin:0; padding: 10px 20px; background: rgba(255,0,0,0.2);" onclick="closePayment()">Terminate</button>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section class="faq-section" id="faq">
-        <div class="section-title">Frequently Asked Questions<br><span>SIA knowledge base</span></div>
-        <div class="faq-item">
-            <h4>Is my biometric data stored on your servers?</h4>
-            <p>No. SIA uses decentralized cryptographic architectures. Your data is hashed into standalone mathematical equations and stays strictly on your local device.</p>
+    <!-- FOOTER TERMINAL CONTACT DATA -->
+    <section id="cta" style="text-align: center; padding: 60px 20px; background: rgba(0, 210, 255, 0.02); border-top: 1px solid rgba(0, 210, 255, 0.1);">
+        <h2 style="font-size: 26px; margin-bottom: 25px;">Secure Your Digital Infrastructure Today</h2>
+        <div style="max-width: 600px; margin: 0 auto 30px auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; text-align: left;">
+            <div style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+                <p style="color: #00d2ff; font-weight: bold;">📧 Core Email Route:</p>
+                <a href="mailto:support@sia.system" style="color: #fff; text-decoration: none;">support@sia.system</a>
+            </div>
+            <div style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+                <p style="color: #00d2ff; font-weight: bold;">📞 Direct Hotline Array:</p>
+                <a href="tel:+84123456789" style="color: #fff; text-decoration: none;">+84 (0) 123 456 789</a>
+            </div>
         </div>
+        <p style="color: #a0aec0; font-size: 14px;">📍 HQ Base: SIA Tech Tower, Software Park Zone, Haiphong, Vietnam</p>
     </section>
 
-    <section id="cta" style="text-align: center; padding: 60px 20px; background: rgba(0, 210, 255, 0.02);">
-        <h2 style="font-size: 26px; margin-bottom: 15px;">Ready to Step Into the Passwordless Future?</h2>
-        <a href="mailto:support@sia.system" class="btn-primary" style="margin: 0;">Email Us Directly</a>
-    </section>
+    <!-- CORE TRANSACTION DISPATCH SCRIPT -->
+    <script>
+        let currentCurrency = 'USD';
+        let currentAmount = 0;
+        let currentProduct = '';
 
+        function openPayment(currency, amount, product) {
+            currentAmount = amount;
+            currentProduct = product;
+            document.getElementById('paymentTitle').innerText = `Acquire Module: ${product} (${currency})`;
+            document.getElementById('paymentModal').style.display = 'flex';
+            document.getElementById('qrContainer').style.display = 'none';
+            document.getElementById('successMsg').style.display = 'none';
+            document.getElementById('btnGenQR').style.display = 'block';
+            document.getElementById('clientEmail').value = '';
+            document.getElementById('clientEmail').disabled = false;
+        }
+
+        function generateQR() {
+            const email = document.getElementById('clientEmail').value;
+            if (!email || !email.includes('@')) {
+                alert('A valid email matrix destination is required to route deployment credentials.');
+                return;
+            }
+
+            document.getElementById('clientEmail').disabled = true;
+            document.getElementById('btnGenQR').style.display = 'none';
+            
+            const memo = `${currentProduct}_${Math.floor(1000 + Math.random() * 9000)}`;
+            document.getElementById('paymentMemo').innerText = memo;
+
+            // Enterprise và cá nhân bản Quốc tế mặc định định tuyến về MB USD Account
+            document.getElementById('targetAccount').innerText = "6801639330636";
+            let qrUrl = `https://img.vietqr.io/image/MB-6801639330636-compact2.png?amount=${currentAmount}&addInfo=${encodeURIComponent(memo)}&accountName=SIA%20SYSTEM%20USD`;
+
+            document.getElementById('qrImg').src = qrUrl;
+            document.getElementById('qrContainer').style.display = 'block';
+
+            // Automated balance fulfillment simulation (6 seconds)
+            setTimeout(() => {
+                document.getElementById('qrContainer').style.display = 'none';
+                document.getElementById('successMsg').style.display = 'block';
+            }, 6000);
+        }
+
+        function closePayment() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
